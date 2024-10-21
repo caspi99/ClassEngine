@@ -3,16 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleProgram.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|solutionrelative:ModuleProgram.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleRenderExercise.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|solutionrelative:ModuleRenderExercise.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleRenderExercise.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|solutionrelative:ModuleRenderExercise.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleOpenGL.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|solutionrelative:ModuleOpenGL.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|solutionrelative:Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\Application.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|solutionrelative:Application.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleWindow.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|solutionrelative:ModuleWindow.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\Application.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|solutionrelative:Application.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleProgram.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|solutionrelative:ModuleProgram.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,44 +38,98 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ModuleWindow.cpp",
-              "DocumentMoniker": "C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleWindow.cpp",
-              "RelativeDocumentMoniker": "ModuleWindow.cpp",
-              "ToolTip": "C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleWindow.cpp",
-              "RelativeToolTip": "ModuleWindow.cpp",
-              "ViewState": "AgIAABgAAAAAAAAAAAAAACEAAAAiAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "ModuleProgram.cpp",
+              "DocumentMoniker": "C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleProgram.cpp",
+              "RelativeDocumentMoniker": "ModuleProgram.cpp",
+              "ToolTip": "C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleProgram.cpp",
+              "RelativeToolTip": "ModuleProgram.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-10-07T18:35:38.378Z"
+              "WhenOpened": "2024-10-21T19:22:21.991Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "ModuleOpenGL.cpp",
               "DocumentMoniker": "C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleOpenGL.cpp",
               "RelativeDocumentMoniker": "ModuleOpenGL.cpp",
               "ToolTip": "C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleOpenGL.cpp",
               "RelativeToolTip": "ModuleOpenGL.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAAC0AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-10-07T18:33:29.301Z",
+              "WhenOpened": "2024-10-21T19:18:24.741Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ModuleProgram.h",
+              "DocumentMoniker": "C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleProgram.h",
+              "RelativeDocumentMoniker": "ModuleProgram.h",
+              "ToolTip": "C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleProgram.h",
+              "RelativeToolTip": "ModuleProgram.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-10-21T19:15:00.598Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Application.h",
+              "DocumentMoniker": "C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\Application.h",
+              "RelativeDocumentMoniker": "Application.h",
+              "ToolTip": "C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\Application.h",
+              "RelativeToolTip": "Application.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-10-21T18:46:48.277Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Application.cpp",
+              "DocumentMoniker": "C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\Application.cpp",
+              "RelativeDocumentMoniker": "Application.cpp",
+              "ToolTip": "C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\Application.cpp",
+              "RelativeToolTip": "Application.cpp",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-10-21T18:48:51.465Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Main.cpp",
-              "DocumentMoniker": "C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\Main.cpp",
-              "RelativeDocumentMoniker": "Main.cpp",
-              "ToolTip": "C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\Main.cpp",
-              "RelativeToolTip": "Main.cpp",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAACAAAAAYAAAAAAAAAA==",
+              "Title": "ModuleRenderExercise.cpp",
+              "DocumentMoniker": "C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleRenderExercise.cpp",
+              "RelativeDocumentMoniker": "ModuleRenderExercise.cpp",
+              "ToolTip": "C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleRenderExercise.cpp",
+              "RelativeToolTip": "ModuleRenderExercise.cpp",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAuwBUAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-10-07T17:54:16.139Z"
+              "WhenOpened": "2024-10-21T17:48:46.38Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ModuleRenderExercise.h",
+              "DocumentMoniker": "C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleRenderExercise.h",
+              "RelativeDocumentMoniker": "ModuleRenderExercise.h",
+              "ToolTip": "C:\\Users\\andreucj\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleRenderExercise.h",
+              "RelativeToolTip": "ModuleRenderExercise.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-10-21T17:49:05.874Z",
+              "EditorCaption": ""
             }
           ]
         }
