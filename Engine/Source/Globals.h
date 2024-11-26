@@ -1,4 +1,5 @@
 #pragma once
+#define NOMINMAX
 #include <windows.h>
 #include <stdio.h>
 
@@ -17,5 +18,6 @@ enum update_status
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
 #define FULLSCREEN false
+#define RESIZABLE true
 #define VSYNC true
 #define TITLE "Super Awesome Engine"

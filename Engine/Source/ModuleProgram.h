@@ -10,6 +10,6 @@ public:
 
 public:
 	char* LoadShaderSource(const char* shader_file_name);
-	unsigned CompileShader(unsigned type, const char* shader_file_name);
-	unsigned CreateProgram(const char* vertex_shader_file_name, const char* fragment_shader_file_name);
+	unsigned int CompileShader(unsigned int type, const char* shader_file_name);
+	unsigned int CreateProgram(const char* vertex_shader_file_name, const char* fragment_shader_file_name);
 };

@@ -2,14 +2,21 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleOpenGL.h"
+#include "ModuleCamera.h"
+#include "ModuleWindow.h"
+#include "ModuleRenderExercise.h"
 #include "SDL/include/SDL.h"
+#include "ImGui/imgui_impl_sdl2.h"
 
-ModuleInput::ModuleInput()
-{}
+ModuleInput::ModuleInput() {
+    width = 0;
+    height = 0;
+}
 
 // Destructor
-ModuleInput::~ModuleInput()
-{}
+ModuleInput::~ModuleInput() {
+
+}
 
 // Called before render is available
 bool ModuleInput::Init()
@@ -34,6 +41,7 @@ update_status ModuleInput::Update()
 
     while (SDL_PollEvent(&sdlEvent) != 0)
     {
+        ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
         switch (sdlEvent.type)
         {
             case SDL_QUIT:
@@ -46,6 +54,42 @@ update_status ModuleInput::Update()
     }
 
     keyboard = SDL_GetKeyboardState(NULL);
+
+    if (keyboard[SDL_SCANCODE_LSHIFT] || keyboard[SDL_SCANCODE_RSHIFT]) {
+        speed = 0.02f;
+    }
+    else {
+        speed = 0.01f;
+    }
+
+    // Camera movement
+    if (keyboard[SDL_SCANCODE_Q]) App->GetCamera()->frustum.pos.y += speed;
+    if (keyboard[SDL_SCANCODE_E]) App->GetCamera()->frustum.pos.y -= speed;
+    if (keyboard[SDL_SCANCODE_W]) App->GetCamera()->frustum.pos += App->GetCamera()->frustum.front * speed;
+    if (keyboard[SDL_SCANCODE_S]) App->GetCamera()->frustum.pos -= App->GetCamera()->frustum.front * speed;
+    if (keyboard[SDL_SCANCODE_A]) App->GetCamera()->frustum.pos -= App->GetCamera()->frustum.WorldRight() * speed;
+    if (keyboard[SDL_SCANCODE_D]) App->GetCamera()->frustum.pos += App->GetCamera()->frustum.WorldRight() * speed;
+
+    int mouseX, mouseY;
+    Uint32 mouseState = SDL_GetMouseState(&mouseX, &mouseY);
+    if (mouseState && SDL_BUTTON(SDL_BUTTON_LEFT)) {
+        SDL_GetWindowSize(App->GetWindow()->window, &width, &height);
+        int centerX = width / 2;
+        int centerY = height / 2;
+
+        SDL_WarpMouseInWindow(App->GetWindow()->window, centerX, centerY);
+
+        int deltaX = mouseX - centerX;
+        int deltaY = mouseY - centerY;
+
+        float sensitivity = 0.001f;
+        float yaw = deltaX * sensitivity;
+        float pitch = deltaY * sensitivity;
+
+        App->GetCamera()->SetOrientation(pitch, yaw);
+    }
+
+    App->GetRenderExercise()->UpdateCamera();
 
     return UPDATE_CONTINUE;
 }

@@ -4,16 +4,52 @@
 #include "ModuleWindow.h"
 #include "SDL.h"
 #include "GL/glew.h"
+#include "ModuleCamera.h"
+#include "ModuleRenderExercise.h"
 
 ModuleOpenGL::ModuleOpenGL()
 {
 	context = nullptr;
+	width = 0;
+	height = 0;
 }
 
 // Destructor
 ModuleOpenGL::~ModuleOpenGL()
 {
 }
+
+void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+{
+	const char* tmp_source = "", * tmp_type = "", * tmp_severity = "";
+	switch (source) {
+	case GL_DEBUG_SOURCE_API: tmp_source = "API"; break;
+	case GL_DEBUG_SOURCE_WINDOW_SYSTEM: tmp_source = "Window System"; break;
+	case GL_DEBUG_SOURCE_SHADER_COMPILER: tmp_source = "Shader Compiler"; break;
+	case GL_DEBUG_SOURCE_THIRD_PARTY: tmp_source = "Third Party"; break;
+	case GL_DEBUG_SOURCE_APPLICATION: tmp_source = "Application"; break;
+	case GL_DEBUG_SOURCE_OTHER: tmp_source = "Other"; break;
+	};
+	switch (type) {
+	case GL_DEBUG_TYPE_ERROR: tmp_type = "Error"; break;
+	case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR: tmp_type = "Deprecated Behaviour"; break;
+	case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR: tmp_type = "Undefined Behaviour"; break;
+	case GL_DEBUG_TYPE_PORTABILITY: tmp_type = "Portability"; break;
+	case GL_DEBUG_TYPE_PERFORMANCE: tmp_type = "Performance"; break;
+	case GL_DEBUG_TYPE_MARKER: tmp_type = "Marker"; break;
+	case GL_DEBUG_TYPE_PUSH_GROUP: tmp_type = "Push Group"; break;
+	case GL_DEBUG_TYPE_POP_GROUP: tmp_type = "Pop Group"; break;
+	case GL_DEBUG_TYPE_OTHER: tmp_type = "Other"; break;
+	};
+	switch (severity) {
+	case GL_DEBUG_SEVERITY_HIGH: tmp_severity = "high"; break;
+	case GL_DEBUG_SEVERITY_MEDIUM: tmp_severity = "medium"; break;
+	case GL_DEBUG_SEVERITY_LOW: tmp_severity = "low"; break;
+	case GL_DEBUG_SEVERITY_NOTIFICATION: tmp_severity = "notification"; break;
+	};
+	LOG("<Source:%s> <Type:%s> <Severity:%s> <ID:%d> <Message:%s>\n", tmp_source, tmp_type, tmp_severity, id, message);
+}
+
 
 // Called before render is available
 bool ModuleOpenGL::Init()
@@ -43,13 +79,17 @@ bool ModuleOpenGL::Init()
 	glEnable(GL_CULL_FACE);
 	glFrontFace(GL_CCW); //Counter clockwise
 
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
+	glEnable(GL_DEBUG_OUTPUT);
+	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+	glDebugMessageCallback(&OurOpenGLErrorFunction, nullptr);
+	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, true);
+
 	return true;
 }
 
 update_status ModuleOpenGL::PreUpdate()
 {
-	int width;
-	int height;
 	SDL_GetWindowSize(App->GetWindow()->window, &width, &height);
 	glViewport(0, 0, width, height);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -81,5 +121,12 @@ bool ModuleOpenGL::CleanUp()
 
 void ModuleOpenGL::WindowResized(unsigned width, unsigned height)
 {
+	ModuleCamera* camera = App->GetCamera();
+	camera->ResizeCamera();
+	App->GetRenderExercise()->UpdateCamera();
+}
+
+void* ModuleOpenGL::GetContext() {
+	return context;
 }
 

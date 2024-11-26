@@ -9,7 +9,11 @@ class ModuleWindow;
 class ModuleTextures;
 class ModuleInput;
 class ModuleProgram;
+class ModuleCamera;
 class ModuleRenderExercise;
+class ModuleDebugDraw;
+class ModuleEditor;
+class ModuleTexture;
 
 class Application
 {
@@ -27,6 +31,10 @@ public:
     ModuleProgram* GetProgram() { return program; }
     ModuleRenderExercise* GetRenderExercise() { return renderExercise; }
     ModuleInput*  GetInput() { return input; }
+    ModuleDebugDraw* GetDraw() { return draw; }
+    ModuleCamera* GetCamera() { return camera; }
+    ModuleEditor* GetEditor() { return editor; }
+    ModuleTexture* GetTexture() { return texture; }
 
 private:
 
@@ -35,6 +43,10 @@ private:
     ModuleProgram* program = nullptr;
     ModuleRenderExercise* renderExercise = nullptr;
     ModuleInput* input = nullptr;
+    ModuleDebugDraw* draw = nullptr;
+    ModuleCamera* camera = nullptr;
+    ModuleEditor* editor = nullptr;
+    ModuleTexture* texture = nullptr;
 
     std::list<Module*> modules;
 

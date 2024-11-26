@@ -17,4 +17,7 @@ public:
 
 private:
 	const Uint8 *keyboard = NULL;
+	float speed = 0.1f;
+	int width;
+	int height;
 };

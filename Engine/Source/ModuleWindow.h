@@ -18,6 +18,8 @@ public:
 	// Called before quitting
 	bool Init();
 
+	update_status Update();
+
 	// Called before quitting
 	bool CleanUp();
 

@@ -24,19 +24,26 @@ char* ModuleProgram::LoadShaderSource(const char* shader_file_name) {
 		data[size] = 0;
 		fclose(file);
 	}
+	else {
+		LOG("Error: Unable to open shader file %s", shader_file_name);
+	}
 	return data;
 }
 
-unsigned ModuleProgram::CompileShader(unsigned type, const char* shader_file_name)
+unsigned int ModuleProgram::CompileShader(unsigned int type, const char* shader_file_name)
 {
 	char* data = LoadShaderSource(shader_file_name);
+	if (!data) {
+		LOG("Error: Shader source is empty for file %s", shader_file_name);
+		return 0;
+	}
 
-	unsigned shader_id = glCreateShader(type);
+	unsigned int shader_id = glCreateShader(type);
 	glShaderSource(shader_id, 1, &data, 0);
 	glCompileShader(shader_id);
 	int res = GL_FALSE;
 	glGetShaderiv(shader_id, GL_COMPILE_STATUS, &res);
-	if (res == GL_FALSE)
+	if (res == GL_FALSE)	
 	{
 		int len = 0;
 		glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &len);
@@ -48,17 +55,24 @@ unsigned ModuleProgram::CompileShader(unsigned type, const char* shader_file_nam
 			LOG("Log Info: %s", info);
 			free(info);
 		}
+		glDeleteShader(shader_id);
+		shader_id = 0;
 	}
 	free(data);
 	return shader_id;
 }
 
-unsigned ModuleProgram::CreateProgram(const char* vertex_shader_file_name, const char* fragment_shader_file_name)
+unsigned int ModuleProgram::CreateProgram(const char* vertex_shader_file_name, const char* fragment_shader_file_name)
 {
-	unsigned vtx_shader = CompileShader(GL_VERTEX_SHADER, vertex_shader_file_name);
-	unsigned frg_shader = CompileShader(GL_FRAGMENT_SHADER, fragment_shader_file_name);
+	unsigned int vtx_shader = CompileShader(GL_VERTEX_SHADER, vertex_shader_file_name);
+	unsigned int frg_shader = CompileShader(GL_FRAGMENT_SHADER, fragment_shader_file_name);
 
-	unsigned program_id = glCreateProgram();
+	if (vtx_shader == 0 || frg_shader == 0) {
+		LOG("Error: Shader compilation failed.");
+		return 0;
+	}
+
+	unsigned int program_id = glCreateProgram();
 	glAttachShader(program_id, vtx_shader);
 	glAttachShader(program_id, frg_shader);
 	glLinkProgram(program_id);
@@ -76,7 +90,10 @@ unsigned ModuleProgram::CreateProgram(const char* vertex_shader_file_name, const
 			LOG("Program Log Info: %s", info);
 			free(info);
 		}
+		glDeleteProgram(program_id);
+		program_id = 0;
 	}
+
 	glDeleteShader(vtx_shader);
 	glDeleteShader(frg_shader);
 	return program_id;
