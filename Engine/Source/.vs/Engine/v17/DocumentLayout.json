@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleTexture.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|solutionrelative:ModuleTexture.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleInput.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|solutionrelative:ModuleInput.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -13,10 +17,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleRenderExercise.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|solutionrelative:ModuleRenderExercise.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleTexture.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|solutionrelative:ModuleTexture.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleOpenGL.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -50,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
@@ -78,32 +78,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "ModuleTexture.cpp",
               "DocumentMoniker": "C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleTexture.cpp",
               "RelativeDocumentMoniker": "ModuleTexture.cpp",
               "ToolTip": "C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleTexture.cpp",
               "RelativeToolTip": "ModuleTexture.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAmAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-25T19:40:38.317Z"
+              "WhenOpened": "2024-11-25T19:40:38.317Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "ModuleInput.cpp",
               "DocumentMoniker": "C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleInput.cpp",
               "RelativeDocumentMoniker": "ModuleInput.cpp",
               "ToolTip": "C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleInput.cpp",
               "RelativeToolTip": "ModuleInput.cpp",
-              "ViewState": "AQIAADkAAAAAAAAAAAAAAFQAAAAjAAAA",
+              "ViewState": "AQIAAEsAAAAAAAAAAAAAAGUAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-25T19:17:15.109Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "ModuleEditor.cpp",
               "DocumentMoniker": "C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleEditor.cpp",
               "RelativeDocumentMoniker": "ModuleEditor.cpp",
@@ -115,7 +116,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "ModuleRenderExercise.cpp",
               "DocumentMoniker": "C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleRenderExercise.cpp",
               "RelativeDocumentMoniker": "ModuleRenderExercise.cpp",
