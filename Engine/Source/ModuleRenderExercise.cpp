@@ -5,6 +5,7 @@
 #include "ModuleWindow.h"
 #include "ModuleDebugDraw.h"
 #include "ModuleCamera.h"
+#include "ModuleTexture.h"
 
 ModuleRenderExercise::ModuleRenderExercise() {
 	vao = 0;
@@ -21,10 +22,14 @@ ModuleRenderExercise::~ModuleRenderExercise() {
 
 bool ModuleRenderExercise::Init() {
 	//Triangle VBO
-	float vtx_data[] = {	
-		-1.0f, -1.0f, 0.0f,
-		1.0f, -1.0f, 0.0f,
-		0.0f, 1.0f, 0.0f 
+	float vtx_data[] = {
+		-1.0f, -1.0f, 0.0f,      0.0f, 1.0f,
+		1.0f, -1.0f, 0.0f,       1.0f, 1.0f,
+		-1.0f, 1.0f, 0.0f,       0.0f, 0.0f,
+
+		-1.0f, 1.0f, 0.0f,       0.0f, 0.0f,
+		1.0f, -1.0f, 0.0f,       1.0f, 1.0f,
+		1.0f, 1.0f, 0.0f,        1.0f, 0.0f
 	};
 
 	glGenVertexArrays(1, &vao);
@@ -37,7 +42,10 @@ bool ModuleRenderExercise::Init() {
 	glEnableVertexAttribArray(0); // Enable the vertex attribute at location 0
 	// size = 3 float per vertex
 	// stride = 0 is equivalent to stride = sizeof(float)*3
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 
 	//Create program with shaders
 	program = App->GetProgram()->CreateProgram("default_vertex.glsl", "default_fragment.glsl");
@@ -46,15 +54,17 @@ bool ModuleRenderExercise::Init() {
 		return false;
 	}
 
-	model = float4x4::FromTRS(float3(1.0f, 0.0f, -10.0f),
-		float4x4::RotateZ(pi / 4.0f),
-		float3(2.0f, 1.0f, 1.0f));
+	model = float4x4::FromTRS(float3(0.0f, 0.0f, -10.0f),
+		float4x4::RotateZ(0.0f),
+		float3(1.0f, 1.0f, 1.0f));
 
 	//Camera working
 	camera = App->GetCamera();
 	camera->PerspectiveCamera(float3(0.0f, 1.0f, -2.0f), pi / 4.0f, 0.1f, 200.0f);
 	//camera->LookAt(float3(0.0f, 0.0f, 10.0f)); //Creo que esta al reves, preguntar
 	UpdateCamera();
+
+	bool isTexture = App->GetTexture()->getTexture(L"Baboon.ppm");
 
 	return true;
 }
@@ -72,10 +82,14 @@ update_status ModuleRenderExercise::Update()
 	glUniformMatrix4fv(viewLoc, 1, GL_TRUE, &view[0][0]);
 	glUniformMatrix4fv(projLoc, 1, GL_TRUE, &projection[0][0]);
 
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, App->GetTexture()->texture);
+	glUniform1i(glGetUniformLocation(program, "mytexture"), 0);
+
 	glBindVertexArray(vao);
-	// 1 triangle to draw = 3 vertices 
 	
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	// 1 triangle to draw = 3 vertices 
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 	App->GetDraw()->Draw(view, projection, width, height);
 
 	return UPDATE_CONTINUE;
