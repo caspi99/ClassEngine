@@ -17,6 +17,7 @@ public:
 	bool CleanUp();
 
 	update_status GeneralMenu();
+	void ConfigMenu();
 
 private:
 	bool editorWindowShow;

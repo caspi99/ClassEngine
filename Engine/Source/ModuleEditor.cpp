@@ -5,9 +5,10 @@
 #include "ModuleWindow.h"
 #include "ModuleOpenGL.h"
 #include "Application.h"
+#include <GL/glew.h>
 
 ModuleEditor::ModuleEditor(){
-	editorWindowShow = false;
+	editorWindowShow = true;
 }
 
 ModuleEditor::~ModuleEditor(){
@@ -36,6 +37,7 @@ update_status ModuleEditor::GeneralMenu() {
 		ImGui::Text("This is our super awesome engine");
 		ImGui::Text("Name of the Author: Andreu Castano");
 		ImGui::Text("Libraries(with versions) used");
+		ImGui::Text("Using Glew %s", glewGetString(GLEW_VERSION));
 		ImGui::Text("License");
 		ImGui::EndMenu();
 	}
@@ -49,11 +51,33 @@ update_status ModuleEditor::GeneralMenu() {
 	return UPDATE_CONTINUE;
 }
 
+void ModuleEditor::ConfigMenu() {
+	ImGui::Begin("Config Menu");
+	//Esto es lo mas jodido de ImGui
+
+	ImGui::Text("CPU Cores: %d", SDL_GetCPUCount());
+	ImGui::Text("CPU Cache Line Size: %d bytes", SDL_GetCPUCacheLineSize());
+	ImGui::Text("RAM: %.2f GB", SDL_GetSystemRAM() / 1024.0f);
+
+	ImGui::Separator();
+	ImGui::Text("GPU: %s", glGetString(GL_RENDERER));
+
+	SDL_version sdlVersion;
+	SDL_GetVersion(&sdlVersion);
+
+	ImGui::Text("SDL Version: %d.%d.%d", sdlVersion.major, sdlVersion.minor, sdlVersion.patch);
+	ImGui::Text("OpenGL Version: %.6s", glGetString(GL_VERSION));
+	ImGui::Text("GLSL Version: %.5s", glGetString(GL_SHADING_LANGUAGE_VERSION));
+
+	ImGui::End();
+}
+
 update_status ModuleEditor::PreUpdate(){
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 	update_status quitStatus = GeneralMenu();
+	if(editorWindowShow) ConfigMenu();
 
 	return quitStatus;
 }
