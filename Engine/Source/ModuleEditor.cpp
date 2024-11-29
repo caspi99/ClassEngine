@@ -7,7 +7,7 @@
 #include "Application.h"
 
 ModuleEditor::ModuleEditor(){
-
+	editorWindowShow = false;
 }
 
 ModuleEditor::~ModuleEditor(){
@@ -29,19 +29,33 @@ bool ModuleEditor::Init(){
 	return true;
 }
 
-update_status ModuleEditor::PreUpdate(){
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame();
-	ImGui::NewFrame();
-	if (ImGui::CollapsingHeader("About...")) {
+update_status ModuleEditor::GeneralMenu() {
+	ImGui::Begin("Menu");
+	if (ImGui::BeginMenu("About...")) {
 		ImGui::Text("Name of the engine: %s", TITLE);
 		ImGui::Text("This is our super awesome engine");
 		ImGui::Text("Name of the Author: Andreu Castano");
 		ImGui::Text("Libraries(with versions) used");
 		ImGui::Text("License");
+		ImGui::EndMenu();
 	}
+	if (ImGui::MenuItem("Engine Github")) system("start https://github.com/caspi99/ClassEngine");
+	ImGui::Checkbox("Editor Window", &editorWindowShow);
+	if (ImGui::MenuItem("Quit", "Alt+F4")) {
+		return UPDATE_STOP;
+	}
+	ImGui::End();
 
 	return UPDATE_CONTINUE;
+}
+
+update_status ModuleEditor::PreUpdate(){
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
+	update_status quitStatus = GeneralMenu();
+
+	return quitStatus;
 }
 
 update_status ModuleEditor::Update(){

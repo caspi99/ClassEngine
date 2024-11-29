@@ -15,4 +15,9 @@ public:
 	update_status Update();
 	update_status PostUpdate();
 	bool CleanUp();
+
+	update_status GeneralMenu();
+
+private:
+	bool editorWindowShow;
 };

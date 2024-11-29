@@ -70,9 +70,10 @@ update_status ModuleInput::Update()
     if (keyboard[SDL_SCANCODE_A]) App->GetCamera()->frustum.pos -= App->GetCamera()->frustum.WorldRight() * speed;
     if (keyboard[SDL_SCANCODE_D]) App->GetCamera()->frustum.pos += App->GetCamera()->frustum.WorldRight() * speed;
 
+    /*
     int mouseX, mouseY;
     Uint32 mouseState = SDL_GetMouseState(&mouseX, &mouseY);
-    if (mouseState && SDL_BUTTON(SDL_BUTTON_LEFT)) {
+    if (mouseState && SDL_BUTTON(SDL_BUTTON_RIGHT)) {
         SDL_GetWindowSize(App->GetWindow()->window, &width, &height);
         int centerX = width / 2;
         int centerY = height / 2;
@@ -87,7 +88,7 @@ update_status ModuleInput::Update()
         float pitch = deltaY * sensitivity;
 
         App->GetCamera()->SetOrientation(pitch, yaw);
-    }
+    }*/
 
     App->GetRenderExercise()->UpdateCamera();
 
