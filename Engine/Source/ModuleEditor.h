@@ -18,7 +18,12 @@ public:
 
 	update_status GeneralMenu();
 	void ConfigMenu();
+	void UpdateFPS();
 
 private:
 	bool editorWindowShow;
+	float fps = 0.0f;
+	const int FPS_HISTORY_SIZE = 100;
+	float fpsHistory[100] = { 0 };
+	int fpsHistoryIndex = 0;
 };

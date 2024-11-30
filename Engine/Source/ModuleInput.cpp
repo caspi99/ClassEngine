@@ -71,6 +71,31 @@ update_status ModuleInput::Update()
     if (keyboard[SDL_SCANCODE_D]) App->GetCamera()->frustum.pos += App->GetCamera()->frustum.WorldRight() * speed;
 
     /*
+    * 
+    * 
+    * 
+    Esto es para comparar
+    auto Game::handleMouseState(float fps) -> void {
+  _mouseInput->mouseState =
+      SDL_GetMouseState(&_mouseInput->mouseX, &_mouseInput->mouseY);
+  if (_mouseInput->mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)) {
+    // printf("SDL_MOUSEBUTTONDOWN\n");
+    auto halfWindowWidth = _graphics->getWindowWidth() / 2;
+    auto halfWindowHeight = _graphics->getWindowHeight() / 2;
+    _gameState->setCamera(
+        {_gameState->getPlayer()->getPosition().x - halfWindowWidth,
+         _gameState->getPlayer()->getPosition().y - halfWindowHeight});
+    _gameState->getPlayer()->onDestinationSelected(
+        {(float)_mouseInput->mouseX + _gameState->getCamera().x,
+         (float)_mouseInput->mouseY + _gameState->getCamera().y},
+        fps);
+
+    validatePlayerPosition();
+  }
+
+
+
+
     int mouseX, mouseY;
     Uint32 mouseState = SDL_GetMouseState(&mouseX, &mouseY);
     if (mouseState && SDL_BUTTON(SDL_BUTTON_RIGHT)) {

@@ -11,8 +11,8 @@
       "RelativeMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|solutionrelative:ModuleEditor.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleOpenGL.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|solutionrelative:ModuleOpenGL.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleCamera.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|solutionrelative:ModuleCamera.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleInput.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -21,10 +21,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleRenderExercise.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|solutionrelative:ModuleRenderExercise.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleCamera.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|solutionrelative:ModuleCamera.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}|Engine.vcxproj|C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleRenderExercise.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -46,15 +42,15 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ModuleOpenGL.cpp",
-              "DocumentMoniker": "C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleOpenGL.cpp",
-              "RelativeDocumentMoniker": "ModuleOpenGL.cpp",
-              "ToolTip": "C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleOpenGL.cpp",
-              "RelativeToolTip": "ModuleOpenGL.cpp",
-              "ViewState": "AQIAADAAAAAAAAAAAAAAAEQAAAAZAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-29T16:05:19.734Z",
+              "DocumentIndex": 1,
+              "Title": "ModuleEditor.h",
+              "DocumentMoniker": "C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleEditor.h",
+              "RelativeDocumentMoniker": "ModuleEditor.h",
+              "ToolTip": "C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleEditor.h",
+              "RelativeToolTip": "ModuleEditor.h",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAmwBsAAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-18T18:12:05.513Z",
               "EditorCaption": ""
             },
             {
@@ -65,7 +61,7 @@
               "RelativeDocumentMoniker": "ModuleEditor.cpp",
               "ToolTip": "C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleEditor.cpp",
               "RelativeToolTip": "ModuleEditor.cpp",
-              "ViewState": "AQIAADIAAAAAAAAAAAAAADoAAABJAAAA",
+              "ViewState": "AQIAADQAAAAAAAAAAAAjwEQAAAAfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-29T12:13:24.127Z",
               "EditorCaption": ""
@@ -78,7 +74,7 @@
               "RelativeDocumentMoniker": "ModuleInput.cpp",
               "ToolTip": "C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleInput.cpp",
               "RelativeToolTip": "ModuleInput.cpp",
-              "ViewState": "AQIAADwAAAAAAAAAAAAAAEgAAAAGAAAA",
+              "ViewState": "AQIAABEAAAAAAAAAAAAAABwAAAACAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-29T12:07:06.338Z",
               "EditorCaption": ""
@@ -93,12 +89,11 @@
               "RelativeToolTip": "ModuleRenderExercise.cpp",
               "ViewState": "AQIAAFQAAAAAAAAAAAAAADAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-10-21T17:48:46.38Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-21T17:48:46.38Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "ModuleRenderExercise.h",
               "DocumentMoniker": "C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleRenderExercise.h",
               "RelativeDocumentMoniker": "ModuleRenderExercise.h",
@@ -106,12 +101,11 @@
               "RelativeToolTip": "ModuleRenderExercise.h",
               "ViewState": "AQIAAAkAAAAAAAAAAAAAABcAAAASAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-10-21T17:49:05.874Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-21T17:49:05.874Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "ModuleCamera.cpp",
               "DocumentMoniker": "C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleCamera.cpp",
               "RelativeDocumentMoniker": "ModuleCamera.cpp",
@@ -124,20 +118,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ModuleEditor.h",
-              "DocumentMoniker": "C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleEditor.h",
-              "RelativeDocumentMoniker": "ModuleEditor.h",
-              "ToolTip": "C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleEditor.h",
-              "RelativeToolTip": "ModuleEditor.h",
-              "ViewState": "AQIAAAcAAAAAAAAAAAAmwBYAAAAXAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-11-18T18:12:05.513Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 6,
               "Title": "ModuleCamera.h",
               "DocumentMoniker": "C:\\Users\\caspi\\Documents\\GitHub\\ClassEngine\\Engine\\Source\\ModuleCamera.h",
               "RelativeDocumentMoniker": "ModuleCamera.h",
@@ -145,8 +126,7 @@
               "RelativeToolTip": "ModuleCamera.h",
               "ViewState": "AQIAABUAAAAAAAAAAAAAABcAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-11-11T19:34:28.066Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-11T19:34:28.066Z"
             }
           ]
         }

@@ -24,6 +24,9 @@ Application::Application()
 	modules.push_back(editor = new ModuleEditor());
 	modules.push_back(input = new ModuleInput());
 	modules.push_back(texture = new ModuleTexture());
+
+	lastTime = 0;
+	deltaTime = 0;
 }
 
 Application::~Application()
@@ -47,6 +50,10 @@ bool Application::Init()
 update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
+
+	double currentTime = SDL_GetPerformanceCounter();
+	deltaTime = (double)((currentTime - lastTime) / (double)SDL_GetPerformanceFrequency());
+	lastTime = currentTime;
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		ret = (*it)->PreUpdate();

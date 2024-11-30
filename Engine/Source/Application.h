@@ -36,6 +36,8 @@ public:
     ModuleEditor* GetEditor() { return editor; }
     ModuleTexture* GetTexture() { return texture; }
 
+    double deltaTime;
+
 private:
 
     ModuleOpenGL* render = nullptr;
@@ -49,6 +51,8 @@ private:
     ModuleTexture* texture = nullptr;
 
     std::list<Module*> modules;
+
+    double lastTime;
 
 };
 

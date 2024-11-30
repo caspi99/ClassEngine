@@ -51,13 +51,37 @@ update_status ModuleEditor::GeneralMenu() {
 	return UPDATE_CONTINUE;
 }
 
+// Function to update FPS
+void ModuleEditor::UpdateFPS() {
+	if (App->deltaTime > 0.0f) {
+		fps = 1.0f / App->deltaTime;
+	}
+
+	// Store FPS in history array and calculate the average FPS
+	fpsHistory[fpsHistoryIndex % FPS_HISTORY_SIZE] = fps;
+	fpsHistoryIndex++;
+}
+
 void ModuleEditor::ConfigMenu() {
 	ImGui::Begin("Config Menu");
-	//Esto es lo mas jodido de ImGui
 
-	ImGui::Text("CPU Cores: %d", SDL_GetCPUCount());
-	ImGui::Text("CPU Cache Line Size: %d bytes", SDL_GetCPUCacheLineSize());
-	ImGui::Text("RAM: %.2f GB", SDL_GetSystemRAM() / 1024.0f);
+	UpdateFPS();
+	ImGui::Text("FPS: %.2f", fps);
+	ImGui::PlotHistogram("##framerate", &fpsHistory[0], 100, 0, "", 0.0f, 1500.0f, ImVec2(310, 100));
+
+	ImGui::Separator();
+	ImGui::Text("CPUs: %d (Cache: %d bytes)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());
+	ImGui::Text("System RAM: %.2f GB", SDL_GetSystemRAM() / 1024.0f);
+
+	//This is not working
+	int total_vram = 0;
+	int free_vram = 0;
+	glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &total_vram);
+	glGetIntegerv(GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &free_vram);
+
+	ImGui::Text("Total VRAM: %d MB", total_vram / 1024);
+	ImGui::Text("Available VRAM: %d MB", free_vram / 1024);
+	ImGui::Text("Used VRAM: %d MB", (total_vram - free_vram) / 1024);
 
 	ImGui::Separator();
 	ImGui::Text("GPU: %s", glGetString(GL_RENDERER));
