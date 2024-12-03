@@ -6,6 +6,7 @@
 #include "ModuleOpenGL.h"
 #include "Application.h"
 #include <GL/glew.h>
+#include <string>
 
 ModuleEditor::ModuleEditor(){
 	editorWindowShow = true;
@@ -72,16 +73,20 @@ void ModuleEditor::ConfigMenu() {
 	ImGui::Text("CPUs: %d (Cache: %d bytes)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());
 	ImGui::Text("System RAM: %.2f GB", SDL_GetSystemRAM() / 1024.0f);
 
-	//This only works for NVIDIA GPUs
-	int total_vram = 0;
-	int free_vram = 0;
-	glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &total_vram);
-	glGetIntegerv(GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &free_vram);
-
 	ImGui::Text("GPU: %s", glGetString(GL_RENDERER));
-	ImGui::Text("Total VRAM: %d MB", total_vram / 1024);
-	ImGui::Text("Available VRAM: %d MB", free_vram / 1024);
-	ImGui::Text("Used VRAM: %d MB", (total_vram - free_vram) / 1024);
+	const GLubyte* vendor = glGetString(GL_VENDOR);
+	if (vendor != nullptr && std::string(reinterpret_cast<const char*>(vendor)) == "NVIDIA Corporation") {
+		//This only works for NVIDIA GPUs
+		int total_vram = 0;
+		int free_vram = 0;
+		glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &total_vram);
+		glGetIntegerv(GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &free_vram);
+
+		ImGui::Text("Total VRAM: %d MB", total_vram / 1024);
+		ImGui::Text("Available VRAM: %d MB", free_vram / 1024);
+		ImGui::Text("Used VRAM: %d MB", (total_vram - free_vram) / 1024);
+	}
+	else ImGui::Text("Not supporting memory consumption for %s", vendor);
 
 	ImGui::Separator();
 

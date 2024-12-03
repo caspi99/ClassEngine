@@ -6,6 +6,7 @@
 #include "ModuleDebugDraw.h"
 #include "ModuleCamera.h"
 #include "ModuleTexture.h"
+#include "ModuleModel.h"
 
 ModuleRenderExercise::ModuleRenderExercise() {
 	vao = 0;
@@ -23,21 +24,6 @@ ModuleRenderExercise::~ModuleRenderExercise() {
 
 bool ModuleRenderExercise::Init() {
 	//Triangle VBO
-	/*float vtx_data[] = {
-		-1.0f, -1.0f, 0.0f,      0.0f, 1.0f,
-		1.0f, -1.0f, 0.0f,       1.0f, 1.0f,
-		-1.0f, 1.0f, 0.0f,       0.0f, 0.0f,
-
-		-1.0f, 1.0f, 0.0f,       0.0f, 0.0f,
-		1.0f, -1.0f, 0.0f,       1.0f, 1.0f,
-		1.0f, 1.0f, 0.0f,        1.0f, 0.0f
-	};
-
-	unsigned int vtx_indices[] = {
-		0, 1, 3,
-		1, 2, 3 
-	};*/
-
 	float vtx_data[] = {
 		-1.0f, -1.0f, 0.0f,      0.0f, 1.0f,
 		 1.0f, -1.0f, 0.0f,      1.0f, 1.0f,
@@ -63,10 +49,10 @@ bool ModuleRenderExercise::Init() {
 	glEnableVertexAttribArray(0); // Enable the vertex attribute at location 0
 	// size = 3 float per vertex
 	// stride = 0 is equivalent to stride = sizeof(float)*3
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3 + sizeof(float) * 2, (void*)0);
 
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 3 + sizeof(float) * 2, (void*)(sizeof(float) * 3));
 
 	//Create program with shaders
 	program = App->GetProgram()->CreateProgram("default_vertex.glsl", "default_fragment.glsl");
@@ -86,6 +72,7 @@ bool ModuleRenderExercise::Init() {
 	UpdateCamera();
 
 	bool isTexture = App->GetTexture()->getTexture(L"Baboon.ppm");
+	App->GetModel()->Load("Box.gltf");
 
 	return true;
 }

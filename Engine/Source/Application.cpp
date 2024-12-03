@@ -9,6 +9,7 @@
 #include "ModuleCamera.h"
 #include "ModuleEditor.h"
 #include "ModuleTexture.h"
+#include "ModuleModel.h"
 
 using namespace std;
 
@@ -24,6 +25,7 @@ Application::Application()
 	modules.push_back(editor = new ModuleEditor());
 	modules.push_back(input = new ModuleInput());
 	modules.push_back(texture = new ModuleTexture());
+	modules.push_back(model = new ModuleModel());
 
 	lastTime = 0;
 	deltaTime = 0;

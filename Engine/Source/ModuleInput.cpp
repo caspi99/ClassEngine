@@ -88,8 +88,9 @@ update_status ModuleInput::Update()
         lastMouseX = mouseX;
         lastMouseY = mouseY;
 
-        float yaw = deltaX * delta_time;
-        float pitch = deltaY * delta_time;
+        float sensitivity = 2.0f;
+        float yaw = deltaX * sensitivity * delta_time;
+        float pitch = deltaY * sensitivity * delta_time;
 
         App->GetCamera()->SetOrientation(pitch, yaw);
     } 

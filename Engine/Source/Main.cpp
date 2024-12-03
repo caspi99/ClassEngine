@@ -1,11 +1,16 @@
 #include <stdlib.h>
 #include "Application.h"
-#include "ModuleOpenGL.h"
 #include "Globals.h"
 
 #include "SDL/include/SDL.h"
 #pragma comment( lib, "SDL/lib/x64/SDL2.lib" )
 #pragma comment( lib, "SDL/lib/x64/SDL2main.lib" )
+
+#define TINYGLTF_NO_STB_IMAGE_WRITE
+#define TINYGLTF_NO_STB_IMAGE
+#define TINYGLTF_NO_EXTERNAL_IMAGE
+#define TINYGLTF_IMPLEMENTATION /* Only in one of the includes */
+#include "tiny_gltf.h"
 
 enum main_states
 {

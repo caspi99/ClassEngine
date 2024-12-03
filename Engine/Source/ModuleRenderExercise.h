@@ -9,6 +9,7 @@ class ModuleProgram;
 class ModuleWindow;
 class ModuleDebugDraw;
 class ModuleTexture;
+class ModuleModel;
 
 class ModuleRenderExercise : public Module
 {
