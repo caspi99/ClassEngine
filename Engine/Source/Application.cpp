@@ -22,10 +22,10 @@ Application::Application()
 	modules.push_back(camera = new ModuleCamera());
 	modules.push_back(renderExercise = new ModuleRenderExercise());
 	modules.push_back(draw = new ModuleDebugDraw());
-	modules.push_back(editor = new ModuleEditor());
-	modules.push_back(input = new ModuleInput());
 	modules.push_back(texture = new ModuleTexture());
 	modules.push_back(model = new ModuleModel());
+	modules.push_back(editor = new ModuleEditor());
+	modules.push_back(input = new ModuleInput());
 
 	lastTime = 0;
 	deltaTime = 0;
@@ -75,6 +75,11 @@ bool Application::CleanUp()
 
 	for(list<Module*>::reverse_iterator it = modules.rbegin(); it != modules.rend() && ret; ++it)
 		ret = (*it)->CleanUp();
+
+	for (const char* message : App->logMessages) {
+		free(const_cast<char*>(message));
+	}
+	App->logMessages.clear();
 
 	return ret;
 }

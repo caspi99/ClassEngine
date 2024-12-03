@@ -72,7 +72,7 @@ bool ModuleRenderExercise::Init() {
 	UpdateCamera();
 
 	bool isTexture = App->GetTexture()->getTexture(L"Baboon.ppm");
-	App->GetModel()->Load("Box.gltf");
+	//App->GetModel()->Load("Box.gltf");
 
 	return true;
 }

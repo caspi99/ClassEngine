@@ -21,7 +21,7 @@ public:
 	update_status GeneralMenu();
 	void ConfigMenu();
 	void UpdateFPS();
-	void LogConsole(const char* logMessages);
+	void LogConsole();
 
 private:
 	bool editorWindowShow;

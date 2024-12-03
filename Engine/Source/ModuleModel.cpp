@@ -2,9 +2,10 @@
 #include <SDL_assert.h>
 #include <GL/glew.h>
 #include <Math/float3.h>
+#include "Application.h"
 
 ModuleModel::ModuleModel() {
-
+	mesh = nullptr;
 }
 
 ModuleModel::~ModuleModel() {
@@ -32,6 +33,7 @@ void ModuleModel::Load(const char* assetFileName) {
 		{
 			mesh = new Mesh;
 			mesh->load(model, srcMesh, primitive);
+			mesh->LoadEBO(model, srcMesh, primitive);
 		}
 	}
 }

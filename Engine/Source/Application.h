@@ -3,6 +3,7 @@
 #include<list>
 #include "Globals.h"
 #include "Module.h"
+#include <vector>
 
 class ModuleOpenGL;
 class ModuleWindow;
@@ -39,6 +40,12 @@ public:
     ModuleModel* GetModel() { return model; }
 
     double deltaTime;
+    std::vector<const char*> logMessages;
+
+    void print(const char* message) {
+        logMessages.push_back(message);
+    }
+
 
 private:
 

@@ -105,13 +105,27 @@ void ModuleEditor::ConfigMenu() {
 	ImGui::End();
 }
 
-void ModuleEditor::LogConsole(const char* logMessage) {
+void ModuleEditor::LogConsole() {
 	ImGui::Begin("Console");
 
-	/*for (char* message : logMessages) {
-		ImGui::TextUnformatted(message);
-	}*/
+	if (ImGui::Button("Clear Console")) {
+		App->logMessages.clear();
+	}
 
+	ImGui::BeginChild("ScrollingRegion", ImVec2(0, 0), true);
+	for (const char* message : App->logMessages) {
+		if (strstr(message, "error")) {
+			ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), message);  // Red for errors
+		}
+		else if (strstr(message, "warning")) {
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), message);  // Yellow for warnings
+		}
+		else {
+			ImGui::TextUnformatted(message);  // Default color for info
+		}
+	}
+
+	ImGui::EndChild();
 	ImGui::End();
 }
 
@@ -121,6 +135,7 @@ update_status ModuleEditor::PreUpdate(){
 	ImGui::NewFrame();
 	update_status quitStatus = GeneralMenu();
 	if(editorWindowShow) ConfigMenu();
+	LogConsole();
 
 	return quitStatus;
 }
