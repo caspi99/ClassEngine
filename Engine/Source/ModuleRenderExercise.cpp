@@ -10,6 +10,7 @@
 ModuleRenderExercise::ModuleRenderExercise() {
 	vao = 0;
 	vbo = 0;
+	ebo = 0;
 	program = 0;
 	width = 0;
 	height = 0;
@@ -22,7 +23,7 @@ ModuleRenderExercise::~ModuleRenderExercise() {
 
 bool ModuleRenderExercise::Init() {
 	//Triangle VBO
-	float vtx_data[] = {
+	/*float vtx_data[] = {
 		-1.0f, -1.0f, 0.0f,      0.0f, 1.0f,
 		1.0f, -1.0f, 0.0f,       1.0f, 1.0f,
 		-1.0f, 1.0f, 0.0f,       0.0f, 0.0f,
@@ -32,12 +33,32 @@ bool ModuleRenderExercise::Init() {
 		1.0f, 1.0f, 0.0f,        1.0f, 0.0f
 	};
 
+	unsigned int vtx_indices[] = {
+		0, 1, 3,
+		1, 2, 3 
+	};*/
+
+	float vtx_data[] = {
+		-1.0f, -1.0f, 0.0f,      0.0f, 1.0f,
+		 1.0f, -1.0f, 0.0f,      1.0f, 1.0f,
+		-1.0f,  1.0f, 0.0f,      0.0f, 0.0f,
+		 1.0f,  1.0f, 0.0f,      1.0f, 0.0f
+	};
+
+	unsigned int vtx_indices[] = {
+		0, 1, 2,
+		2, 1, 3
+	};
+
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
+	glGenBuffers(1, &ebo);
 
 	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo); // set vbo active 
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vtx_data), vtx_data, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(vtx_indices), vtx_indices, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0); // Enable the vertex attribute at location 0
 	// size = 3 float per vertex
@@ -88,8 +109,7 @@ update_status ModuleRenderExercise::Update()
 
 	glBindVertexArray(vao);
 	
-	// 1 triangle to draw = 3 vertices 
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	App->GetDraw()->Draw(view, projection, width, height);
 
 	return UPDATE_CONTINUE;
@@ -97,6 +117,7 @@ update_status ModuleRenderExercise::Update()
 
 bool ModuleRenderExercise::CleanUp() {
 	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &vbo);
 	glDeleteProgram(program);
 	return true;

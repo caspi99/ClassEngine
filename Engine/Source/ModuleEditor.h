@@ -3,6 +3,8 @@
 #include "Globals.h"
 
 class Application;
+class ModuleWindow;
+class ModuleOpenGL;
 
 class ModuleEditor : public Module
 {
@@ -19,6 +21,7 @@ public:
 	update_status GeneralMenu();
 	void ConfigMenu();
 	void UpdateFPS();
+	void LogConsole(const char* logMessages);
 
 private:
 	bool editorWindowShow;

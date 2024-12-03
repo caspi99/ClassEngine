@@ -56,64 +56,46 @@ update_status ModuleInput::Update()
     keyboard = SDL_GetKeyboardState(NULL);
 
     if (keyboard[SDL_SCANCODE_LSHIFT] || keyboard[SDL_SCANCODE_RSHIFT]) {
-        speed = 0.02f;
+        speed = 10.f;
     }
     else {
-        speed = 0.01f;
+        speed = 5.f;
     }
 
+    float delta_time = App->deltaTime;
+
     // Camera movement
-    if (keyboard[SDL_SCANCODE_Q]) App->GetCamera()->frustum.pos.y += speed;
-    if (keyboard[SDL_SCANCODE_E]) App->GetCamera()->frustum.pos.y -= speed;
-    if (keyboard[SDL_SCANCODE_W]) App->GetCamera()->frustum.pos += App->GetCamera()->frustum.front * speed;
-    if (keyboard[SDL_SCANCODE_S]) App->GetCamera()->frustum.pos -= App->GetCamera()->frustum.front * speed;
-    if (keyboard[SDL_SCANCODE_A]) App->GetCamera()->frustum.pos -= App->GetCamera()->frustum.WorldRight() * speed;
-    if (keyboard[SDL_SCANCODE_D]) App->GetCamera()->frustum.pos += App->GetCamera()->frustum.WorldRight() * speed;
-
-    /*
-    * 
-    * 
-    * 
-    Esto es para comparar
-    auto Game::handleMouseState(float fps) -> void {
-  _mouseInput->mouseState =
-      SDL_GetMouseState(&_mouseInput->mouseX, &_mouseInput->mouseY);
-  if (_mouseInput->mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)) {
-    // printf("SDL_MOUSEBUTTONDOWN\n");
-    auto halfWindowWidth = _graphics->getWindowWidth() / 2;
-    auto halfWindowHeight = _graphics->getWindowHeight() / 2;
-    _gameState->setCamera(
-        {_gameState->getPlayer()->getPosition().x - halfWindowWidth,
-         _gameState->getPlayer()->getPosition().y - halfWindowHeight});
-    _gameState->getPlayer()->onDestinationSelected(
-        {(float)_mouseInput->mouseX + _gameState->getCamera().x,
-         (float)_mouseInput->mouseY + _gameState->getCamera().y},
-        fps);
-
-    validatePlayerPosition();
-  }
-
-
-
+    if (keyboard[SDL_SCANCODE_Q]) App->GetCamera()->frustum.pos.y += speed * delta_time;
+    if (keyboard[SDL_SCANCODE_E]) App->GetCamera()->frustum.pos.y -= speed * delta_time;
 
     int mouseX, mouseY;
     Uint32 mouseState = SDL_GetMouseState(&mouseX, &mouseY);
-    if (mouseState && SDL_BUTTON(SDL_BUTTON_RIGHT)) {
-        SDL_GetWindowSize(App->GetWindow()->window, &width, &height);
-        int centerX = width / 2;
-        int centerY = height / 2;
+    if (mouseState & SDL_BUTTON(SDL_BUTTON_RIGHT)) {
+        if (keyboard[SDL_SCANCODE_W]) App->GetCamera()->frustum.pos += App->GetCamera()->frustum.front * speed * delta_time;
+        if (keyboard[SDL_SCANCODE_S]) App->GetCamera()->frustum.pos -= App->GetCamera()->frustum.front * speed * delta_time;
+        if (keyboard[SDL_SCANCODE_A]) App->GetCamera()->frustum.pos -= App->GetCamera()->frustum.WorldRight() * speed * delta_time;
+        if (keyboard[SDL_SCANCODE_D]) App->GetCamera()->frustum.pos += App->GetCamera()->frustum.WorldRight() * speed * delta_time;
 
-        SDL_WarpMouseInWindow(App->GetWindow()->window, centerX, centerY);
+        if (firstTime) {
+            lastMouseX = mouseX;
+            lastMouseY = mouseY;
+            firstTime = false;
+        }
 
-        int deltaX = mouseX - centerX;
-        int deltaY = mouseY - centerY;
+        int deltaX = mouseX - lastMouseX;
+        int deltaY = mouseY - lastMouseY;
 
-        float sensitivity = 0.001f;
-        float yaw = deltaX * sensitivity;
-        float pitch = deltaY * sensitivity;
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
+
+        float yaw = deltaX * delta_time;
+        float pitch = deltaY * delta_time;
 
         App->GetCamera()->SetOrientation(pitch, yaw);
-    }*/
+    } 
+    else {
+        firstTime = true;
+    }
 
     App->GetRenderExercise()->UpdateCamera();
 

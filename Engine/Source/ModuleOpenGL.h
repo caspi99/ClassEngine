@@ -6,6 +6,12 @@ struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
 
+class Application;
+class ModuleOpenGL;
+class ModuleWindow;
+class ModuleCamera;
+class ModuleRenderExercise;
+
 class ModuleOpenGL : public Module
 {
 public:
@@ -22,6 +28,5 @@ public:
 
 private:
 	void* context;
-	int width;
-	int height;
+
 };

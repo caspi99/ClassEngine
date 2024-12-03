@@ -130,6 +130,7 @@
       <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ModuleTexture.cpp" />
+    <ClCompile Include="ModuleModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -355,6 +356,8 @@
       <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ModuleTexture.h" />
+    <ClInclude Include="tiny_gltf.h" />
+    <ClInclude Include="ModuleModel.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MathGeoLib">

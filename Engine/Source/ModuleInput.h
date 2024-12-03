@@ -4,6 +4,11 @@
 
 typedef unsigned __int8 Uint8;
 
+class ModuleOpenGL;
+class ModuleCamera;
+class ModuleWindow;
+class Application;
+
 class ModuleInput : public Module
 {
 public:
@@ -20,4 +25,7 @@ private:
 	float speed = 0.1f;
 	int width;
 	int height;
+	int lastMouseX = 0;
+	int lastMouseY = 0;
+	bool firstTime = true;
 };

@@ -57,7 +57,6 @@ void ModuleEditor::UpdateFPS() {
 		fps = 1.0f / App->deltaTime;
 	}
 
-	// Store FPS in history array and calculate the average FPS
 	fpsHistory[fpsHistoryIndex % FPS_HISTORY_SIZE] = fps;
 	fpsHistoryIndex++;
 }
@@ -73,18 +72,18 @@ void ModuleEditor::ConfigMenu() {
 	ImGui::Text("CPUs: %d (Cache: %d bytes)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());
 	ImGui::Text("System RAM: %.2f GB", SDL_GetSystemRAM() / 1024.0f);
 
-	//This is not working
+	//This only works for NVIDIA GPUs
 	int total_vram = 0;
 	int free_vram = 0;
 	glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &total_vram);
 	glGetIntegerv(GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &free_vram);
 
+	ImGui::Text("GPU: %s", glGetString(GL_RENDERER));
 	ImGui::Text("Total VRAM: %d MB", total_vram / 1024);
 	ImGui::Text("Available VRAM: %d MB", free_vram / 1024);
 	ImGui::Text("Used VRAM: %d MB", (total_vram - free_vram) / 1024);
 
 	ImGui::Separator();
-	ImGui::Text("GPU: %s", glGetString(GL_RENDERER));
 
 	SDL_version sdlVersion;
 	SDL_GetVersion(&sdlVersion);
@@ -92,6 +91,21 @@ void ModuleEditor::ConfigMenu() {
 	ImGui::Text("SDL Version: %d.%d.%d", sdlVersion.major, sdlVersion.minor, sdlVersion.patch);
 	ImGui::Text("OpenGL Version: %.6s", glGetString(GL_VERSION));
 	ImGui::Text("GLSL Version: %.5s", glGetString(GL_SHADING_LANGUAGE_VERSION));
+
+	//ImGui::Separator();
+	//ImGui::SliderInt("Width", );
+	//ImGui::SliderInt("Height", );
+	//ModuleInput speed;
+	//Fullscreen and resizable
+	ImGui::End();
+}
+
+void ModuleEditor::LogConsole(const char* logMessage) {
+	ImGui::Begin("Console");
+
+	/*for (char* message : logMessages) {
+		ImGui::TextUnformatted(message);
+	}*/
 
 	ImGui::End();
 }

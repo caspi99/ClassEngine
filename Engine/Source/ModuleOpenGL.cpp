@@ -10,8 +10,6 @@
 ModuleOpenGL::ModuleOpenGL()
 {
 	context = nullptr;
-	width = 0;
-	height = 0;
 }
 
 // Destructor
@@ -90,6 +88,7 @@ bool ModuleOpenGL::Init()
 
 update_status ModuleOpenGL::PreUpdate()
 {
+	int width, height;
 	SDL_GetWindowSize(App->GetWindow()->window, &width, &height);
 	glViewport(0, 0, width, height);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);

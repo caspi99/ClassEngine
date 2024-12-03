@@ -53,7 +53,6 @@ private:
     std::list<Module*> modules;
 
     double lastTime;
-
 };
 
 extern Application* App;

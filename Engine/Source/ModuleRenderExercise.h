@@ -5,6 +5,10 @@
 
 class Application;
 class ModuleCamera;
+class ModuleProgram;
+class ModuleWindow;
+class ModuleDebugDraw;
+class ModuleTexture;
 
 class ModuleRenderExercise : public Module
 {
@@ -22,6 +26,7 @@ private:
 	ModuleCamera* camera;
 	unsigned int vao;
 	unsigned int vbo;
+	unsigned int ebo;
 	unsigned int program;
 
 	float4x4 model;

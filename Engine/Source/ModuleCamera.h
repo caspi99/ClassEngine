@@ -4,6 +4,7 @@
 #include "MathGeoLib.h"
 
 class Application;
+class ModuleWindow;
 
 class ModuleCamera : public Module
 {
