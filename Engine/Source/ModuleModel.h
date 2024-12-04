@@ -6,9 +6,9 @@
 #define TINYGLTF_NO_EXTERNAL_IMAGE
 #include "tiny_gltf.h"
 #include <memory>
-#include <Math/float3.h>
 
 class Application;
+class ModuleTexture;
 
 struct Primitive {
 	std::map<std::string, int> attributes;
@@ -20,7 +20,7 @@ struct Primitive {
 struct Mesh {
 	std::string name;
 	std::vector<uint32_t> indices;
-	std::vector<float3> positions;
+	std::vector<float> vertexData;
 
 	unsigned int vao = -1;
 
@@ -31,6 +31,7 @@ class ModuleModel : public Module
 {
 public:
 	std::vector<std::unique_ptr<Mesh>> meshes;
+	std::vector<int> textures;
 
 	ModuleModel();
 	~ModuleModel();

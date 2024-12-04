@@ -10,7 +10,7 @@ ModuleTexture::~ModuleTexture(){
 
 }
 
-bool ModuleTexture::getTexture(const wchar_t* filename) {
+int ModuleTexture::getTexture(const wchar_t* filename) {
 	HRESULT hr = DirectX::LoadFromDDSFile(filename, DirectX::DDS_FLAGS_NONE, &metadata, textureData);
 
 	// Check for errors
@@ -71,10 +71,8 @@ bool ModuleTexture::getTexture(const wchar_t* filename) {
 		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, metadata.width, metadata.height, 0, format, type, textureData.GetPixels());
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
-	
-	
 
-	return true;
+	return texture;
 }
 
 bool ModuleTexture::Init(){

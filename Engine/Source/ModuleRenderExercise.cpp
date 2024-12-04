@@ -47,8 +47,8 @@ bool ModuleRenderExercise::Init() {
 	//camera->LookAt(float3(0.0f, 0.0f, 10.0f)); //Creo que esta al reves, preguntar
 	UpdateCamera();
 
-	bool isTexture = App->GetTexture()->getTexture(L"Baboon.ppm");
-	App->GetModel()->Load("Box.gltf");
+	//int textureID = App->GetTexture()->getTexture(L"Baboon.ppm");
+	App->GetModel()->Load("BoxTextured.gltf");
 	//App->GetModel()->Load("BakerHouse.gltf");
 
 	return true;
@@ -67,11 +67,11 @@ update_status ModuleRenderExercise::Update()
 	glUniformMatrix4fv(viewLoc, 1, GL_TRUE, &view[0][0]);
 	glUniformMatrix4fv(projLoc, 1, GL_TRUE, &projection[0][0]);
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, App->GetTexture()->texture);
-	glUniform1i(glGetUniformLocation(program, "mytexture"), 0);
-
 	for (const auto& mesh : App->GetModel()->meshes) {
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, App->GetModel()->textures[0]);
+		glUniform1i(glGetUniformLocation(program, "mytexture"), 0);
+
 		glBindVertexArray(mesh->vao);
 		glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, nullptr);
 	}

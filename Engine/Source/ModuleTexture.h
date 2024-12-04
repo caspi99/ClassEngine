@@ -15,7 +15,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	bool getTexture(const wchar_t* filename);
+	int getTexture(const wchar_t* filename);
 
 	unsigned int texture;
 private:
