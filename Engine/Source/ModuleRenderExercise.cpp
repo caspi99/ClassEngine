@@ -9,9 +9,6 @@
 #include "ModuleModel.h"
 
 ModuleRenderExercise::ModuleRenderExercise() {
-	vao = 0;
-	vbo = 0;
-	ebo = 0;
 	program = 0;
 	width = 0;
 	height = 0;
@@ -23,29 +20,7 @@ ModuleRenderExercise::~ModuleRenderExercise() {
 }
 
 bool ModuleRenderExercise::Init() {
-	//Triangle VBO
-	float vtx_data[] = {
-		-1.0f, -1.0f, 0.0f,      0.0f, 1.0f,
-		 1.0f, -1.0f, 0.0f,      1.0f, 1.0f,
-		-1.0f,  1.0f, 0.0f,      0.0f, 0.0f,
-		 1.0f,  1.0f, 0.0f,      1.0f, 0.0f
-	};
-
-	unsigned int vtx_indices[] = {
-		0, 1, 2,
-		2, 1, 3
-	};
-
-	glGenVertexArrays(1, &vao);
-	glGenBuffers(1, &vbo);
-	glGenBuffers(1, &ebo);
-
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vtx_data), vtx_data, GL_STATIC_DRAW);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(vtx_indices), vtx_indices, GL_STATIC_DRAW);
-
+	/*
 	glEnableVertexAttribArray(0); // Enable the vertex attribute at location 0
 	// size = 3 float per vertex
 	// stride = 0 is equivalent to stride = sizeof(float)*3
@@ -53,6 +28,7 @@ bool ModuleRenderExercise::Init() {
 
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 3 + sizeof(float) * 2, (void*)(sizeof(float) * 3));
+	*/
 
 	//Create program with shaders
 	program = App->GetProgram()->CreateProgram("default_vertex.glsl", "default_fragment.glsl");
@@ -72,7 +48,8 @@ bool ModuleRenderExercise::Init() {
 	UpdateCamera();
 
 	bool isTexture = App->GetTexture()->getTexture(L"Baboon.ppm");
-	//App->GetModel()->Load("Box.gltf");
+	App->GetModel()->Load("Box.gltf");
+	//App->GetModel()->Load("BakerHouse.gltf");
 
 	return true;
 }
@@ -94,18 +71,17 @@ update_status ModuleRenderExercise::Update()
 	glBindTexture(GL_TEXTURE_2D, App->GetTexture()->texture);
 	glUniform1i(glGetUniformLocation(program, "mytexture"), 0);
 
-	glBindVertexArray(vao);
+	for (const auto& mesh : App->GetModel()->meshes) {
+		glBindVertexArray(mesh->vao);
+		glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, nullptr);
+	}
 	
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	App->GetDraw()->Draw(view, projection, width, height);
 
 	return UPDATE_CONTINUE;
 }
 
 bool ModuleRenderExercise::CleanUp() {
-	glDeleteVertexArrays(1, &vao);
-	glDeleteBuffers(1, &ebo);
-	glDeleteBuffers(1, &vbo);
 	glDeleteProgram(program);
 	return true;
 }

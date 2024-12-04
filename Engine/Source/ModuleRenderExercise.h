@@ -25,9 +25,6 @@ public:
 
 private:
 	ModuleCamera* camera;
-	unsigned int vao;
-	unsigned int vbo;
-	unsigned int ebo;
 	unsigned int program;
 
 	float4x4 model;

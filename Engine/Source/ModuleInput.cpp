@@ -88,7 +88,7 @@ update_status ModuleInput::Update()
         lastMouseX = mouseX;
         lastMouseY = mouseY;
 
-        float sensitivity = 2.0f;
+        float sensitivity = 1.5f;
         float yaw = deltaX * sensitivity * delta_time;
         float pitch = deltaY * sensitivity * delta_time;
 

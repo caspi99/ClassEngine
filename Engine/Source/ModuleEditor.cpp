@@ -106,25 +106,30 @@ void ModuleEditor::ConfigMenu() {
 }
 
 void ModuleEditor::LogConsole() {
-	ImGui::Begin("Console");
+	ImGui::Begin("Console", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
 	if (ImGui::Button("Clear Console")) {
 		App->logMessages.clear();
 	}
 
 	ImGui::BeginChild("ScrollingRegion", ImVec2(0, 0), true);
+	ImGui::PushTextWrapPos(ImGui::GetContentRegionAvail().x);
+	ImGui::PushAllowKeyboardFocus(false);
+
 	for (const char* message : App->logMessages) {
 		if (strstr(message, "error")) {
-			ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), message);  // Red for errors
+			ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), message);
 		}
 		else if (strstr(message, "warning")) {
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), message);  // Yellow for warnings
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), message);
 		}
 		else {
-			ImGui::TextUnformatted(message);  // Default color for info
+			ImGui::TextUnformatted(message);
 		}
 	}
 
+	ImGui::PopAllowKeyboardFocus();
+	ImGui::PopTextWrapPos();
 	ImGui::EndChild();
 	ImGui::End();
 }
