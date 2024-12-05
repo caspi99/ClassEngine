@@ -4,6 +4,7 @@
 #include "ImGui/imgui_impl_opengl3.h"
 #include "ModuleWindow.h"
 #include "ModuleOpenGL.h"
+#include "ModuleTexture.h"
 #include "Application.h"
 #include <GL/glew.h>
 #include <string>
@@ -24,9 +25,14 @@ bool ModuleEditor::Init(){
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;        // IF using Docking Branch
 
-	// Setup Platform/Renderer backends
 	ImGui_ImplSDL2_InitForOpenGL(App->GetWindow()->window, App->GetOpenGL()->GetContext());
 	ImGui_ImplOpenGL3_Init();
+
+	SDL_DisplayMode displayMode;
+	if (SDL_GetCurrentDisplayMode(0, &displayMode) == 0) {
+		maxWidth = displayMode.w;
+		maxHeight = displayMode.h;
+	}
 
 	return true;
 }
@@ -37,8 +43,16 @@ update_status ModuleEditor::GeneralMenu() {
 		ImGui::Text("Name of the engine: %s", TITLE);
 		ImGui::Text("This is our super awesome engine");
 		ImGui::Text("Name of the Author: Andreu Castano");
-		ImGui::Text("Libraries(with versions) used");
-		ImGui::Text("Using Glew %s", glewGetString(GLEW_VERSION));
+		ImGui::Separator();
+		ImGui::Text("Libraries used");
+		ImGui::Text("Glew %s", glewGetString(GLEW_VERSION));
+		SDL_version sdlVersion;
+		SDL_GetVersion(&sdlVersion);
+
+		ImGui::Text("SDL Version: %d.%d.%d", sdlVersion.major, sdlVersion.minor, sdlVersion.patch);
+		ImGui::Text("OpenGL Version: %.6s", glGetString(GL_VERSION));
+		ImGui::Text("GLSL Version: %.5s", glGetString(GL_SHADING_LANGUAGE_VERSION));
+		ImGui::Separator();
 		ImGui::Text("License");
 		ImGui::EndMenu();
 	}
@@ -52,7 +66,6 @@ update_status ModuleEditor::GeneralMenu() {
 	return UPDATE_CONTINUE;
 }
 
-// Function to update FPS
 void ModuleEditor::UpdateFPS() {
 	if (App->deltaTime > 0.0f) {
 		fps = 1.0f / App->deltaTime;
@@ -75,8 +88,8 @@ void ModuleEditor::ConfigMenu() {
 
 	ImGui::Text("GPU: %s", glGetString(GL_RENDERER));
 	const GLubyte* vendor = glGetString(GL_VENDOR);
+	//This only works for NVIDIA GPUs
 	if (vendor != nullptr && std::string(reinterpret_cast<const char*>(vendor)) == "NVIDIA Corporation") {
-		//This only works for NVIDIA GPUs
 		int total_vram = 0;
 		int free_vram = 0;
 		glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &total_vram);
@@ -90,18 +103,12 @@ void ModuleEditor::ConfigMenu() {
 
 	ImGui::Separator();
 
-	SDL_version sdlVersion;
-	SDL_GetVersion(&sdlVersion);
+	//Fullscreen and resizable I need to do
+	if (ImGui::SliderInt("Width", &width, 1, maxWidth) || ImGui::SliderInt("Height", &height, 1, maxHeight)) {
+		SDL_SetWindowSize(App->GetWindow()->window, width, height);
+	}
+	App->GetTexture()->setTextConf();
 
-	ImGui::Text("SDL Version: %d.%d.%d", sdlVersion.major, sdlVersion.minor, sdlVersion.patch);
-	ImGui::Text("OpenGL Version: %.6s", glGetString(GL_VERSION));
-	ImGui::Text("GLSL Version: %.5s", glGetString(GL_SHADING_LANGUAGE_VERSION));
-
-	//ImGui::Separator();
-	//ImGui::SliderInt("Width", );
-	//ImGui::SliderInt("Height", );
-	//ModuleInput speed;
-	//Fullscreen and resizable
 	ImGui::End();
 }
 
@@ -135,6 +142,7 @@ void ModuleEditor::LogConsole() {
 }
 
 update_status ModuleEditor::PreUpdate(){
+	SDL_GetWindowSize(App->GetWindow()->window, &width, &height);
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();

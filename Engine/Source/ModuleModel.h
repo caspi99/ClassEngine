@@ -10,17 +10,12 @@
 class Application;
 class ModuleTexture;
 
-struct Primitive {
-	std::map<std::string, int> attributes;
-	int material{ -1 };
-
-	std::vector<uint32_t> indices;
-};
-
 struct Mesh {
 	std::string name;
 	std::vector<uint32_t> indices;
 	std::vector<float> vertexData;
+
+	size_t vertexCount = 0;
 
 	unsigned int vao = -1;
 

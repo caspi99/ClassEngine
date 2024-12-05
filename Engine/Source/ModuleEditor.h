@@ -5,6 +5,7 @@
 class Application;
 class ModuleWindow;
 class ModuleOpenGL;
+class ModuleTexture;
 
 class ModuleEditor : public Module
 {
@@ -29,4 +30,8 @@ private:
 	const int FPS_HISTORY_SIZE = 100;
 	float fpsHistory[100] = { 0 };
 	int fpsHistoryIndex = 0;
+	int width;
+	int height;
+	int maxWidth;
+	int maxHeight;
 };

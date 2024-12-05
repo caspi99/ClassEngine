@@ -16,6 +16,7 @@ public:
 	bool CleanUp();
 
 	int getTexture(const wchar_t* filename);
+	void setTextConf();
 
 	unsigned int texture;
 private:

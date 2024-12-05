@@ -22,9 +22,10 @@ public:
 
 private:
 	const Uint8 *keyboard = NULL;
-	float speed = 0.1f;
 	int width;
 	int height;
+	float speed = 0.1f;
+	float sensitivity = 1.5f;
 	int lastMouseX = 0;
 	int lastMouseY = 0;
 	bool firstTime = true;

@@ -30,7 +30,7 @@ bool ModuleWindow::Init()
 		SDL_DisplayMode displayMode;
 		if (SDL_GetCurrentDisplayMode(0, &displayMode) == 0) {
 			width = displayMode.w;
-			height = displayMode.h - 50; //I want the top bar
+			height = displayMode.h;// - 50; //I want the top bar
 		}
 
 		Uint32 flags = SDL_WINDOW_SHOWN |  SDL_WINDOW_OPENGL;

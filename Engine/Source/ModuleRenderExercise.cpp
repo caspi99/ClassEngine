@@ -20,16 +20,6 @@ ModuleRenderExercise::~ModuleRenderExercise() {
 }
 
 bool ModuleRenderExercise::Init() {
-	/*
-	glEnableVertexAttribArray(0); // Enable the vertex attribute at location 0
-	// size = 3 float per vertex
-	// stride = 0 is equivalent to stride = sizeof(float)*3
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3 + sizeof(float) * 2, (void*)0);
-
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 3 + sizeof(float) * 2, (void*)(sizeof(float) * 3));
-	*/
-
 	//Create program with shaders
 	program = App->GetProgram()->CreateProgram("default_vertex.glsl", "default_fragment.glsl");
 	if (program == 0) {
@@ -47,7 +37,6 @@ bool ModuleRenderExercise::Init() {
 	//camera->LookAt(float3(0.0f, 0.0f, 10.0f)); //Creo que esta al reves, preguntar
 	UpdateCamera();
 
-	//int textureID = App->GetTexture()->getTexture(L"Baboon.ppm");
 	App->GetModel()->Load("BoxTextured.gltf");
 	//App->GetModel()->Load("BakerHouse.gltf");
 

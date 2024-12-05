@@ -57,15 +57,6 @@ void ModuleModel::Load(const char* assetFileName) {
 }
 
 void Mesh::load(const tinygltf::Model& model, const tinygltf::Primitive& primitive) {
-
-
-	/*		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float3), (void*)0);
-
-		glUnmapBuffer(GL_ARRAY_BUFFER);*/
-
-	size_t vertexCount = 0;
 	size_t vertexStride = 0;
 
 	std::vector<float3> positions;
@@ -80,16 +71,11 @@ void Mesh::load(const tinygltf::Model& model, const tinygltf::Primitive& primiti
 		const tinygltf::Buffer& posBuffer = model.buffers[posView.buffer];
 		const unsigned char* bufferPos = &(posBuffer.data[posAcc.byteOffset + posView.byteOffset]);
 
-		//glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		//glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * posAcc.count, nullptr, GL_STATIC_DRAW);
-
 		vertexCount = posAcc.count;
 		vertexStride += 3;
-		//float3* ptr = reinterpret_cast<float3*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
 
 		for (size_t i = 0; i < posAcc.count; ++i) {
 			positions.push_back(*reinterpret_cast<const float3*>(bufferPos));
-			//ptr[i] = *reinterpret_cast<const float3*>(bufferPos);
 			bufferPos += posView.byteStride;
 		}
 	}

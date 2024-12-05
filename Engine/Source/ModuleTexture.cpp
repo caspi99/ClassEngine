@@ -3,10 +3,13 @@
 
 ModuleTexture::ModuleTexture(){
 	texture = 0;
-	metadata;
 }
 
 ModuleTexture::~ModuleTexture(){
+
+}
+
+void ModuleTexture::setTextConf() {
 
 }
 
