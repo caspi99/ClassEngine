@@ -328,6 +328,14 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+Engine/Source/.vs/Engine/v17/*.db
+Engine/Source/.vs/Engine/v17/*.suo
+Engine/Source/.vs/Engine/v17/*.json
+
+Engine/Source/x64/Debug/
+Engine/Source/x64/Debug/*.pdb
+
 Engine/Source/.vs/Engine/v17/Solution.VC.db
 Engine/Source/.vs/Engine/v17/.suo
 Engine/Source/.vs/Engine/v17/Browse.VC.db
