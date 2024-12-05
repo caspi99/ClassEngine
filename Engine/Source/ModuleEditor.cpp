@@ -5,6 +5,7 @@
 #include "ModuleWindow.h"
 #include "ModuleOpenGL.h"
 #include "ModuleTexture.h"
+#include "ModuleModel.h"
 #include "Application.h"
 #include <GL/glew.h>
 #include <string>
@@ -113,7 +114,7 @@ void ModuleEditor::ConfigMenu() {
 }
 
 void ModuleEditor::LogConsole() {
-	ImGui::Begin("Console", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+	ImGui::Begin("Console", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse); //ImGuiWindowFlags_NoMove | 
 
 	if (ImGui::Button("Clear Console")) {
 		App->logMessages.clear();
@@ -149,6 +150,8 @@ update_status ModuleEditor::PreUpdate(){
 	update_status quitStatus = GeneralMenu();
 	if(editorWindowShow) ConfigMenu();
 	LogConsole();
+
+	App->GetTexture()->textProperties();
 
 	return quitStatus;
 }

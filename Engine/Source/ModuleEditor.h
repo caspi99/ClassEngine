@@ -6,6 +6,7 @@ class Application;
 class ModuleWindow;
 class ModuleOpenGL;
 class ModuleTexture;
+class ModuleModel;
 
 class ModuleEditor : public Module
 {

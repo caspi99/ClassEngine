@@ -1,5 +1,6 @@
 #include "ModuleTexture.h"
 #include <GL/glew.h>
+#include "ImGui/imgui.h"
 
 ModuleTexture::ModuleTexture(){
 	texture = 0;
@@ -11,6 +12,27 @@ ModuleTexture::~ModuleTexture(){
 
 void ModuleTexture::setTextConf() {
 
+}
+
+void ModuleTexture::textProperties() {
+	ImGui::Begin("Texture Properties");
+	ImGui::Text("Width: %d  Height: %d", metadata.width, metadata.height);
+	switch (metadata.format) {
+	case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
+	case DXGI_FORMAT_R8G8B8A8_UNORM:
+		ImGui::Text("Format: DXGI_FORMAT_R8G8B8A8_UNORM");
+		break;
+	case DXGI_FORMAT_B8G8R8A8_UNORM_SRGB:
+	case DXGI_FORMAT_B8G8R8A8_UNORM:
+		ImGui::Text("Format: DXGI_FORMAT_B8G8R8A8_UNORM");
+		break;
+	case DXGI_FORMAT_B5G6R5_UNORM:
+		ImGui::Text("Format: DXGI_FORMAT_B5G6R5_UNORM");
+		break;
+	default:
+		assert(false && "Unsupported format");
+	}
+	ImGui::End();
 }
 
 int ModuleTexture::getTexture(const wchar_t* filename) {
@@ -31,10 +53,13 @@ int ModuleTexture::getTexture(const wchar_t* filename) {
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); //GL_CLAMP_TO_BORDER, GL_CLAMP, GL_REPEAT, GL_MIRRORED_REPEAT
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); //GL_CLAMP_TO_BORDER, GL_CLAMP, GL_REPEAT, GL_MIRRORED_REPEAT
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR); /*Without interpolation: GL_NEAREST_MIPMAP_NEAREST
+																					Interpolating samples at a mipmap level: GL_LINEAR_MIPMAP_NEAREST
+																					Interpolating mipmap levels: GL_NEAREST_MIPMAP_LINEAR,GL_LINEAR_MIPMAP_LINEAR*/
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//For using mipmaps
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, textureData.GetMetadata().mipLevels - 1);
 

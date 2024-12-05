@@ -17,6 +17,7 @@ public:
 
 	int getTexture(const wchar_t* filename);
 	void setTextConf();
+	void textProperties();
 
 	unsigned int texture;
 private:
