@@ -20,7 +20,12 @@ public:
 	void textProperties();
 
 	unsigned int texture;
+	const char* formatName;
 private:
 	DirectX::TexMetadata metadata;
 	DirectX::ScratchImage textureData;
+	int wrapSIndex;
+	int wrapTIndex;
+	int minFilterIndex;
+	int maxMipmapLevel;
 };

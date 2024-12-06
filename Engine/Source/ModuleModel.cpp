@@ -5,6 +5,7 @@
 #include <Math/float2.h>
 #include "Application.h"
 #include "ModuleTexture.h"
+#include "ImGui/imgui.h"
 
 ModuleModel::ModuleModel() {
 
@@ -17,6 +18,20 @@ ModuleModel::~ModuleModel() {
 bool ModuleModel::Init() {
 	return true;
 }
+
+void ModuleModel::modelProperties() {
+	ImGui::Begin("Properties");
+	int vertexCountModel = 0;
+	int triangleCountModel = 0;
+	for (const auto& mesh : App->GetModel()->meshes) {
+		vertexCountModel = mesh.get()->vertexCount;
+		triangleCountModel = mesh.get()->triangleCount;
+	}
+	ImGui::Text("Vertex Count: %d", vertexCountModel);
+	ImGui::Text("Triangle Count: %d", triangleCountModel);
+	App->GetTexture()->textProperties();
+	ImGui::End();
+};
 
 //glDeleteBuffers I need to do it!!!
 //glDeleteVertexArrays(1, &vao);
@@ -132,6 +147,8 @@ void Mesh::load(const tinygltf::Model& model, const tinygltf::Primitive& primiti
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * indAcc.count, nullptr, GL_STATIC_DRAW);
 		unsigned int* ptr = reinterpret_cast<unsigned int*>(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
+
+		triangleCount = indAcc.count / 3;
 
 
 		if (indAcc.componentType == TINYGLTF_PARAMETER_TYPE_UNSIGNED_INT) {

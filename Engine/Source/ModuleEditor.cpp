@@ -151,7 +151,7 @@ update_status ModuleEditor::PreUpdate(){
 	if(editorWindowShow) ConfigMenu();
 	LogConsole();
 
-	App->GetTexture()->textProperties();
+	App->GetModel()->modelProperties();
 
 	return quitStatus;
 }

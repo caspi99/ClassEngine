@@ -16,6 +16,7 @@ struct Mesh {
 	std::vector<float> vertexData;
 
 	size_t vertexCount = 0;
+	size_t triangleCount = 0;
 
 	unsigned int vao = -1;
 
@@ -31,6 +32,8 @@ public:
 	ModuleModel();
 	~ModuleModel();
 	bool Init();
+
+	void modelProperties();
 
 	void Load(const char* assetFileName);
 };

@@ -335,6 +335,7 @@ Engine/Source/.vs/Engine/v17/*.json
 
 Engine/Source/x64/Debug/
 Engine/Source/x64/Debug/*.pdb
+Engine/Source/x64/Debug/*.tlog
 
 !Engine/Source/glew-2.1.0/
 !Engine/Source/glew-2.1.0/**
