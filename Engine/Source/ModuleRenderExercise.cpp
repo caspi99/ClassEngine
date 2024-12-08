@@ -29,16 +29,18 @@ bool ModuleRenderExercise::Init() {
 
 	model = float4x4::FromTRS(float3(0.0f, 0.0f, -10.0f),
 		float4x4::RotateZ(0.0f),
-		float3(1.0f, 1.0f, 1.0f));
+		float3(3.f, 3.f, 3.f));
 
 	//Camera working
 	camera = App->GetCamera();
 	camera->PerspectiveCamera(float3(0.0f, 1.0f, -2.0f), pi / 4.0f, 0.1f, 200.0f);
-	//camera->LookAt(float3(0.0f, 0.0f, 10.0f)); //Creo que esta al reves, preguntar
+	camera->LookAt(float3(0.0f, -1.0f, 10.0f)); //Creo que esta al reves, preguntar
 	UpdateCamera();
-
-	App->GetModel()->Load("BoxTextured.gltf");
+	
+	App->GetModel()->Load("Duck.gltf");
 	//App->GetModel()->Load("BakerHouse.gltf");
+
+	projection = camera->GetProjectionMatrix();
 
 	return true;
 }
@@ -52,16 +54,18 @@ update_status ModuleRenderExercise::Update()
 	GLint viewLoc = glGetUniformLocation(program, "view");
 	GLint projLoc = glGetUniformLocation(program, "proj");
 
-	glUniformMatrix4fv(modelLoc, 1, GL_TRUE, &model[0][0]);
 	glUniformMatrix4fv(viewLoc, 1, GL_TRUE, &view[0][0]);
 	glUniformMatrix4fv(projLoc, 1, GL_TRUE, &projection[0][0]);
 
-	for (const auto& mesh : App->GetModel()->meshes) {
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, App->GetModel()->textures[0]);
-		glUniform1i(glGetUniformLocation(program, "mytexture"), 0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, App->GetModel()->textures[0]);
+	glUniform1i(glGetUniformLocation(program, "mytexture"), 0);
 
+	for (size_t i = 0; i < App->GetModel()->meshes.size(); ++i) {
+		auto& mesh = App->GetModel()->meshes[i];
 		glBindVertexArray(mesh->vao);
+		LOG("Mesh %s - VAO: %d, VBO: %d, EBO: %d, Vertices: %d, Indices: %d", mesh->name.c_str(), mesh->vao, mesh->vbo, mesh->ebo, mesh->vertexCount, mesh->indices.size());
+		glUniformMatrix4fv(modelLoc, 1, GL_TRUE, &mesh->modelMatrix[0][0]);
 		glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, nullptr);
 	}
 	
@@ -76,6 +80,5 @@ bool ModuleRenderExercise::CleanUp() {
 }
 
 void ModuleRenderExercise::UpdateCamera() {
-	projection = camera->GetProjectionMatrix();
 	view = camera->GetViewMatrix();
 }

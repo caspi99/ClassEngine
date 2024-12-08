@@ -6,6 +6,7 @@
 #define TINYGLTF_NO_EXTERNAL_IMAGE
 #include "tiny_gltf.h"
 #include <memory>
+#include <Math/float4x4.h>
 
 class Application;
 class ModuleTexture;
@@ -19,6 +20,10 @@ struct Mesh {
 	size_t triangleCount = 0;
 
 	unsigned int vao = -1;
+	unsigned int vbo = -1;
+	unsigned int ebo = -1;
+
+	float4x4 modelMatrix;
 
 	void load(const tinygltf::Model& model, const tinygltf::Primitive& primitive);
 };

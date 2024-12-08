@@ -6,6 +6,7 @@
 #include "Application.h"
 #include "ModuleTexture.h"
 #include "ImGui/imgui.h"
+#include "Math/Quat.h"
 
 ModuleModel::ModuleModel() {
 
@@ -48,12 +49,31 @@ void ModuleModel::Load(const char* assetFileName) {
 
 	for (const auto& srcMesh : model.meshes)
 	{	
+		std::unique_ptr<Mesh> mesh = std::make_unique<Mesh>();
+		mesh->name = srcMesh.name;
+		float3 translation(0.0f, 0.0f, 0.0f);
+		Quat rotation(1.0f, 0.0f, 0.0f, 0.0f);
+		float3 scale(1.0f, 1.0f, 1.0f);
 		for (const auto& primitive : srcMesh.primitives)
 		{
-			std::unique_ptr<Mesh> mesh = std::make_unique<Mesh>();
 			mesh->load(model, primitive);
-			meshes.push_back(std::move(mesh));
-		}	
+		}
+		for (const auto& srcNode : model.nodes) {
+			if (srcNode.name == mesh->name) {
+
+				if (!srcNode.translation.empty()) {
+					translation = float3(srcNode.translation[0], srcNode.translation[1], srcNode.translation[2]);
+				}
+				if (!srcNode.rotation.empty()) {
+					rotation = Quat(srcNode.rotation[0], srcNode.rotation[1], srcNode.rotation[2], srcNode.rotation[3]);
+				}
+				if (!srcNode.scale.empty()) {
+					scale = float3(srcNode.scale[0], srcNode.scale[1], srcNode.scale[2]);
+				}
+			}
+		}
+		mesh->modelMatrix = float4x4::FromTRS(translation, rotation, scale);
+		meshes.push_back(std::move(mesh));
 	}
 
 	for (const auto& srcMaterial : model.materials)
@@ -97,7 +117,7 @@ void Mesh::load(const tinygltf::Model& model, const tinygltf::Primitive& primiti
 
 	std::vector<float2> texCoords;
 	const auto& itTexCoord = primitive.attributes.find("TEXCOORD_0");
-	if (itPos != primitive.attributes.end())
+	if (itTexCoord != primitive.attributes.end())
 	{
 		const tinygltf::Accessor& texCoordAcc = model.accessors[itTexCoord->second];
 		SDL_assert(texCoordAcc.type == TINYGLTF_TYPE_VEC2);
@@ -125,7 +145,6 @@ void Mesh::load(const tinygltf::Model& model, const tinygltf::Primitive& primiti
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
-	unsigned int vbo = -1;
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, vertexData.size() * sizeof(float), vertexData.data(), GL_STATIC_DRAW);
@@ -142,10 +161,9 @@ void Mesh::load(const tinygltf::Model& model, const tinygltf::Primitive& primiti
 		const tinygltf::BufferView& indView = model.bufferViews[indAcc.bufferView];
 		const unsigned char* buffer = &(model.buffers[indView.buffer].data[indAcc.byteOffset + indView.byteOffset]);
 
-		unsigned int ebo = -1;
 		glGenBuffers(1, &ebo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * indAcc.count, nullptr, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t) * indAcc.count, nullptr, GL_STATIC_DRAW);
 		unsigned int* ptr = reinterpret_cast<unsigned int*>(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 
 		triangleCount = indAcc.count / 3;
