@@ -72,7 +72,7 @@ int ModuleTexture::getTexture(const wchar_t* filename) {
 		if (FAILED(hr)) {
 			hr = DirectX::LoadFromWICFile(filename, DirectX::WIC_FLAGS_NONE, &metadata, textureData);
 			if (FAILED(hr)) {
-				return false;
+				return -1;
 			}
 		}
 	}

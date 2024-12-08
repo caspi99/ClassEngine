@@ -37,10 +37,11 @@ bool ModuleRenderExercise::Init() {
 	camera->LookAt(float3(0.0f, -1.0f, 10.0f)); //Creo que esta al reves, preguntar
 	UpdateCamera();
 	
-	App->GetModel()->Load("Duck.gltf");
-	//App->GetModel()->Load("BakerHouse.gltf");
+	//App->GetModel()->Load("Duck.gltf");
+	App->GetModel()->Load("BakerHouse.gltf");
 
 	projection = camera->GetProjectionMatrix();
+
 
 	return true;
 }
@@ -57,10 +58,12 @@ update_status ModuleRenderExercise::Update()
 	glUniformMatrix4fv(viewLoc, 1, GL_TRUE, &view[0][0]);
 	glUniformMatrix4fv(projLoc, 1, GL_TRUE, &projection[0][0]);
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, App->GetModel()->textures[0]);
-	glUniform1i(glGetUniformLocation(program, "mytexture"), 0);
-
+	if (App->GetModel()->textures.size() > 0) {
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, App->GetModel()->textures[0]);
+		glUniform1i(glGetUniformLocation(program, "mytexture"), 0);
+	}
+	
 	for (size_t i = 0; i < App->GetModel()->meshes.size(); ++i) {
 		auto& mesh = App->GetModel()->meshes[i];
 		glBindVertexArray(mesh->vao);
@@ -81,4 +84,12 @@ bool ModuleRenderExercise::CleanUp() {
 
 void ModuleRenderExercise::UpdateCamera() {
 	view = camera->GetViewMatrix();
+}
+
+void ModuleRenderExercise::FileDrop(const char* filePath) {
+	std::string path = filePath;
+	std::string extension = path.substr(path.find_last_of('.') + 1);
+
+	if (extension == "gltf" || extension == "glb") App->GetModel()->Load(path.c_str());
+	else App->GetModel()->LoadTexture(path.c_str());
 }

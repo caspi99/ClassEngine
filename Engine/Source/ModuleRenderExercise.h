@@ -22,6 +22,7 @@ public:
 	bool CleanUp();
 
 	void UpdateCamera();
+	void FileDrop(const char* filePath);
 
 private:
 	ModuleCamera* camera;

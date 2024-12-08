@@ -34,6 +34,19 @@ void ModuleModel::modelProperties() {
 	ImGui::End();
 };
 
+void ModuleModel::LoadTexture(const char* assetFileName) {
+	unsigned int textureId = 0;
+	int sizeNeeded = MultiByteToWideChar(CP_UTF8, 0, assetFileName, -1, nullptr, 0);
+	if (sizeNeeded > 0) {
+		std::wstring wideString(sizeNeeded, 0);
+		MultiByteToWideChar(CP_UTF8, 0, assetFileName, -1, &wideString[0], sizeNeeded);
+		textureId = (App->GetTexture()->getTexture(wideString.c_str()));
+		if (textureId == -1) return;
+		textures.clear();
+		textures.push_back(textureId);
+	}
+}
+
 //glDeleteBuffers I need to do it!!!
 //glDeleteVertexArrays(1, &vao);
 void ModuleModel::Load(const char* assetFileName) {
@@ -46,6 +59,8 @@ void ModuleModel::Load(const char* assetFileName) {
 		LOG("Error loading %s: %s", assetFileName, error.c_str());
 		return;
 	}
+	meshes.clear();
+	textures.clear();
 
 	for (const auto& srcMesh : model.meshes)
 	{	
@@ -116,6 +131,7 @@ void Mesh::load(const tinygltf::Model& model, const tinygltf::Primitive& primiti
 	}
 
 	std::vector<float2> texCoords;
+	bool hasTexCoords = false;
 	const auto& itTexCoord = primitive.attributes.find("TEXCOORD_0");
 	if (itTexCoord != primitive.attributes.end())
 	{
@@ -127,6 +143,7 @@ void Mesh::load(const tinygltf::Model& model, const tinygltf::Primitive& primiti
 		const unsigned char* bufferTexCoord = &(texCoordBuffer.data[texCoordAcc.byteOffset + texCoordView.byteOffset]);
 
 		vertexStride += 2;
+		hasTexCoords = true;
 
 		for (size_t i = 0; i < texCoordAcc.count; ++i) {
 			texCoords.push_back(*reinterpret_cast<const float2*>(bufferTexCoord));
@@ -138,8 +155,10 @@ void Mesh::load(const tinygltf::Model& model, const tinygltf::Primitive& primiti
 		vertexData.push_back(positions[i].x);
 		vertexData.push_back(positions[i].y);
 		vertexData.push_back(positions[i].z);
-		vertexData.push_back(texCoords[i].x);
-		vertexData.push_back(texCoords[i].y);
+		if (hasTexCoords) {
+			vertexData.push_back(texCoords[i].x);
+			vertexData.push_back(texCoords[i].y);
+		}
 	}
 
 	glGenVertexArrays(1, &vao);
@@ -152,8 +171,10 @@ void Mesh::load(const tinygltf::Model& model, const tinygltf::Primitive& primiti
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * vertexStride, (void*)0);
 
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * vertexStride, (void*)(sizeof(float) * 3));
+	if (hasTexCoords) {
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * vertexStride, (void*)(sizeof(float) * 3));
+	}
 
 	if (primitive.indices >= 0)
 	{

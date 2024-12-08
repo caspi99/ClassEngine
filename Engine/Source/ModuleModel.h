@@ -41,4 +41,5 @@ public:
 	void modelProperties();
 
 	void Load(const char* assetFileName);
+	void LoadTexture(const char* assetFileName);
 };
