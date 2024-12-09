@@ -109,6 +109,8 @@ bool ModuleModel::Load(const char* assetFileName) {
 }
 
 void Mesh::load(const tinygltf::Model& model, const tinygltf::Primitive& primitive) {
+	vertexData.clear();
+
 	size_t vertexStride = 0;
 
 	std::vector<float3> positions;
@@ -126,9 +128,11 @@ void Mesh::load(const tinygltf::Model& model, const tinygltf::Primitive& primiti
 		vertexCount = posAcc.count;
 		vertexStride += 3;
 
+		size_t stride = posView.byteStride ? posView.byteStride : sizeof(float) * 3;
+
 		for (size_t i = 0; i < posAcc.count; ++i) {
 			positions.push_back(*reinterpret_cast<const float3*>(bufferPos));
-			bufferPos += posView.byteStride;
+			bufferPos += stride;
 		}
 		
 		SDL_assert(posAcc.minValues.size() == 3 && posAcc.maxValues.size() == 3);
@@ -157,9 +161,11 @@ void Mesh::load(const tinygltf::Model& model, const tinygltf::Primitive& primiti
 		vertexStride += 2;
 		hasTexCoords = true;
 
+		size_t stride = texCoordView.byteStride ? texCoordView.byteStride : sizeof(float) * 2;
+
 		for (size_t i = 0; i < texCoordAcc.count; ++i) {
 			texCoords.push_back(*reinterpret_cast<const float2*>(bufferTexCoord));
-			bufferTexCoord += texCoordView.byteStride;
+			bufferTexCoord += stride;
 		}
 	}
 
