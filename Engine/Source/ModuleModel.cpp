@@ -49,7 +49,7 @@ void ModuleModel::LoadTexture(const char* assetFileName) {
 
 //glDeleteBuffers I need to do it!!!
 //glDeleteVertexArrays(1, &vao);
-void ModuleModel::Load(const char* assetFileName) {
+bool ModuleModel::Load(const char* assetFileName) {
 	tinygltf::TinyGLTF gltfContext;
 	tinygltf::Model model;
 	std::string error, warning;
@@ -57,7 +57,7 @@ void ModuleModel::Load(const char* assetFileName) {
 	if (!loadOk)
 	{
 		LOG("Error loading %s: %s", assetFileName, error.c_str());
-		return;
+		return false;
 	}
 	meshes.clear();
 	textures.clear();
@@ -104,6 +104,8 @@ void ModuleModel::Load(const char* assetFileName) {
 
 		textures.push_back(textureId);
 	}
+
+	return true;
 }
 
 void Mesh::load(const tinygltf::Model& model, const tinygltf::Primitive& primitive) {
@@ -128,6 +130,16 @@ void Mesh::load(const tinygltf::Model& model, const tinygltf::Primitive& primiti
 			positions.push_back(*reinterpret_cast<const float3*>(bufferPos));
 			bufferPos += posView.byteStride;
 		}
+		
+		SDL_assert(posAcc.minValues.size() == 3 && posAcc.maxValues.size() == 3);
+
+		box.min.x = posAcc.minValues[0];
+		box.min.y = posAcc.minValues[1];
+		box.min.z = posAcc.minValues[2];
+
+		box.max.x = posAcc.maxValues[0];
+		box.max.y = posAcc.maxValues[1];
+		box.max.z = posAcc.maxValues[2];
 	}
 
 	std::vector<float2> texCoords;

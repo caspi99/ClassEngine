@@ -23,6 +23,7 @@ public:
 
 	void UpdateCamera();
 	void FileDrop(const char* filePath);
+	void adjustCameraToGeometry();
 
 private:
 	ModuleCamera* camera;

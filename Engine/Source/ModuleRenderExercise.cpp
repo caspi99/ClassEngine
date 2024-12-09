@@ -33,7 +33,7 @@ bool ModuleRenderExercise::Init() {
 
 	//Camera working
 	camera = App->GetCamera();
-	camera->PerspectiveCamera(float3(0.0f, 1.0f, -2.0f), pi / 4.0f, 0.1f, 200.0f);
+	camera->PerspectiveCamera(float3(0.0f, 1.0f, -2.0f), pi / 4.0f, 0.1f, 10000.0f);
 	camera->LookAt(float3(0.0f, -1.0f, 10.0f)); //Creo que esta al reves, preguntar
 	UpdateCamera();
 	
@@ -41,7 +41,6 @@ bool ModuleRenderExercise::Init() {
 	App->GetModel()->Load("BakerHouse.gltf");
 
 	projection = camera->GetProjectionMatrix();
-
 
 	return true;
 }
@@ -89,7 +88,30 @@ void ModuleRenderExercise::UpdateCamera() {
 void ModuleRenderExercise::FileDrop(const char* filePath) {
 	std::string path = filePath;
 	std::string extension = path.substr(path.find_last_of('.') + 1);
+	bool modelLoaded = false;
 
-	if (extension == "gltf" || extension == "glb") App->GetModel()->Load(path.c_str());
+	if (extension == "gltf" || extension == "glb") modelLoaded = App->GetModel()->Load(path.c_str());
 	else App->GetModel()->LoadTexture(path.c_str());
+
+	if (modelLoaded) {
+		adjustCameraToGeometry();
+	}
+}
+
+void ModuleRenderExercise::adjustCameraToGeometry() {
+	float3 min = { 1000000000, 10000000000, 10000000000 };
+	float3 max = { -1000000000, -10000000000, -10000000000 };
+		
+	for (size_t i = 0; i < App->GetModel()->meshes.size(); ++i) {
+		auto& mesh = App->GetModel()->meshes[i];
+		min = Min(min, mesh->box.min);
+		max = Max(max, mesh->box.max);
+	}
+
+	float3 center = (min + max) * 0.5f;
+
+	float diagonal = Length(max - min);
+	camera->SetPosition(center + float3(0.0f, -1.0f, diagonal * 2.0f));
+
+	camera->LookAt(center);
 }

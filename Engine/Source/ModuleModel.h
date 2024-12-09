@@ -11,6 +11,11 @@
 class Application;
 class ModuleTexture;
 
+struct BoundingBox {
+	float3 min;
+	float3 max;
+};
+
 struct Mesh {
 	std::string name;
 	std::vector<uint32_t> indices;
@@ -24,6 +29,7 @@ struct Mesh {
 	unsigned int ebo = -1;
 
 	float4x4 modelMatrix;
+	BoundingBox box;
 
 	void load(const tinygltf::Model& model, const tinygltf::Primitive& primitive);
 };
@@ -40,6 +46,6 @@ public:
 
 	void modelProperties();
 
-	void Load(const char* assetFileName);
+	bool Load(const char* assetFileName);
 	void LoadTexture(const char* assetFileName);
 };

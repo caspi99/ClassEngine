@@ -38,6 +38,7 @@ bool ModuleInput::Init()
 update_status ModuleInput::Update()
 {
     SDL_Event sdlEvent;
+    float delta_time = App->deltaTime;
 
     while (SDL_PollEvent(&sdlEvent) != 0)
     {
@@ -50,11 +51,18 @@ update_status ModuleInput::Update()
                 if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED || sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
                     App->GetOpenGL()->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
                 break;
+            case SDL_MOUSEWHEEL:
+                if (sdlEvent.wheel.y != 0) {
+                    float zoomAmount = sdlEvent.wheel.y * 5.0f;
+                    App->GetCamera()->position -= App->GetCamera()->front * zoomAmount * delta_time;
+                }
+                break;
             case SDL_DROPFILE:
                 char* droppedFilePath = sdlEvent.drop.file;
                 App->GetRenderExercise()->FileDrop(droppedFilePath);
                 SDL_free(droppedFilePath);
-            break;
+                break;
+
         }
     }
 
@@ -67,11 +75,11 @@ update_status ModuleInput::Update()
         speed = 5.f;
     }
 
-    float delta_time = App->deltaTime;
-
     // Camera movement
     if (keyboard[SDL_SCANCODE_Q]) App->GetCamera()->position.y += speed * delta_time;
     if (keyboard[SDL_SCANCODE_E]) App->GetCamera()->position.y -= speed * delta_time;
+    
+    if (keyboard[SDL_SCANCODE_F]) App->GetRenderExercise()->adjustCameraToGeometry();
 
     int mouseX, mouseY;
     Uint32 mouseState = SDL_GetMouseState(&mouseX, &mouseY);
