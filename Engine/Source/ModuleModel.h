@@ -39,6 +39,8 @@ class ModuleModel : public Module
 public:
 	std::vector<std::unique_ptr<Mesh>> meshes;
 	std::vector<int> textures;
+	BoundingBox box;
+	float3 center;
 
 	ModuleModel();
 	~ModuleModel();

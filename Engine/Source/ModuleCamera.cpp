@@ -1,6 +1,7 @@
 #include "ModuleCamera.h"
 #include "ModuleWindow.h"
 #include "Application.h"
+#include "ModuleModel.h"
 #include <GL/glew.h>
 #include <algorithm>
 
@@ -132,6 +133,30 @@ void ModuleCamera::SetOrientation(const float& pitch, const float& yaw) {
 
 	CreateViewMatrix();
 }
+
+void ModuleCamera::Orbit(const float& pitch, const float& yaw) {
+	float constrainedPitch = pitch;
+	if (constrainedPitch > pi / 2.0f) {
+		constrainedPitch = pi / 2.0f;
+	}
+	else if (constrainedPitch < -pi / 2.0f) {
+		constrainedPitch = -pi / 2.0f;
+	}
+
+	float3 direction = position - App->GetModel()->center;
+
+	float3x3 pitchMatrix = CreatePitchMatrix(pitch);
+	float3x3 yawMatrix = CreateYawMatrix(yaw);
+	float3x3 rotationMatrix = pitchMatrix * yawMatrix;
+
+	direction = yawMatrix.MulDir(direction);
+	direction = pitchMatrix.MulDir(direction);
+
+	position = App->GetModel()->center + direction;
+
+	LookAt(App->GetModel()->center);
+}
+
 
 void ModuleCamera::LookAt(const float3& target) {
 	front = (target - position).Normalized();

@@ -108,7 +108,8 @@ update_status ModuleInput::Update()
         float yaw = deltaX * sensitivity * delta_time;
         float pitch = deltaY * sensitivity * delta_time;
 
-        App->GetCamera()->SetOrientation(pitch, yaw);   
+        if(keyboard[SDL_SCANCODE_LALT]) App->GetCamera()->Orbit(pitch, yaw);
+        else App->GetCamera()->SetOrientation(pitch, yaw);
     } 
     else {
         firstTime = true;

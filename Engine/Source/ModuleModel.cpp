@@ -9,7 +9,8 @@
 #include "Math/Quat.h"
 
 ModuleModel::ModuleModel() {
-
+	box.min = { 1000000000, 10000000000, 10000000000 };
+	box.max = { -1000000000, -10000000000, -10000000000 };
 }
 
 ModuleModel::~ModuleModel() {
@@ -104,6 +105,14 @@ bool ModuleModel::Load(const char* assetFileName) {
 
 		textures.push_back(textureId);
 	}
+
+	for (size_t i = 0; i < App->GetModel()->meshes.size(); ++i) {
+		auto& mesh = App->GetModel()->meshes[i];
+		box.min = Min(box.min, mesh->box.min);
+		box.max = Max(box.max, mesh->box.max);
+	}
+
+	center = (box.min + box.max) * 0.5f;
 
 	return true;
 }

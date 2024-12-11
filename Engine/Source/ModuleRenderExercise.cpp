@@ -20,7 +20,6 @@ ModuleRenderExercise::~ModuleRenderExercise() {
 }
 
 bool ModuleRenderExercise::Init() {
-	//Create program with shaders
 	program = App->GetProgram()->CreateProgram("default_vertex.glsl", "default_fragment.glsl");
 	if (program == 0) {
 		LOG("Error: Failed to create shader program");
@@ -34,10 +33,9 @@ bool ModuleRenderExercise::Init() {
 	//Camera working
 	camera = App->GetCamera();
 	camera->PerspectiveCamera(float3(0.0f, 1.0f, -10.0f), pi / 4.0f, 0.1f, 10000.0f);
-	camera->LookAt(float3(0.0f, -1.0f, 10.0f)); //Creo que esta al reves, preguntar
+	camera->LookAt(float3(0.0f, -1.0f, 10.0f));
 	UpdateCamera();
 	
-	//App->GetModel()->Load("Duck.gltf");
 	App->GetModel()->Load("BakerHouse.gltf");
 
 	projection = camera->GetProjectionMatrix();
@@ -99,19 +97,8 @@ void ModuleRenderExercise::FileDrop(const char* filePath) {
 }
 
 void ModuleRenderExercise::adjustCameraToGeometry() {
-	float3 min = { 1000000000, 10000000000, 10000000000 };
-	float3 max = { -1000000000, -10000000000, -10000000000 };
-		
-	for (size_t i = 0; i < App->GetModel()->meshes.size(); ++i) {
-		auto& mesh = App->GetModel()->meshes[i];
-		min = Min(min, mesh->box.min);
-		max = Max(max, mesh->box.max);
-	}
+	float diagonal = Length(App->GetModel()->box.max - App->GetModel()->box.min);
+	camera->SetPosition(App->GetModel()->center + float3(0.0f, -1.0f, diagonal * 2.0f));
 
-	float3 center = (min + max) * 0.5f;
-
-	float diagonal = Length(max - min);
-	camera->SetPosition(center + float3(0.0f, -1.0f, diagonal * 2.0f));
-
-	camera->LookAt(center);
+	camera->LookAt(App->GetModel()->center);
 }

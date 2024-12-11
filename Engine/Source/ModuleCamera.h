@@ -5,6 +5,7 @@
 
 class Application;
 class ModuleWindow;
+class ModuleModel;
 
 class ModuleCamera : public Module
 {
@@ -24,6 +25,7 @@ public:
 	void SetPlaneDistances(const float& nearPlane, const float& farPlane);
 	void SetPosition(const float3& position);
 	void SetOrientation(const float& pitch, const float& yaw);
+	void Orbit(const float& pitch, const float& yaw);
 	void LookAt(const float3& target);
 
 	float3 WorldRight();
