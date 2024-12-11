@@ -33,7 +33,7 @@ bool ModuleRenderExercise::Init() {
 
 	//Camera working
 	camera = App->GetCamera();
-	camera->PerspectiveCamera(float3(0.0f, 1.0f, -2.0f), pi / 4.0f, 0.1f, 10000.0f);
+	camera->PerspectiveCamera(float3(0.0f, 1.0f, -10.0f), pi / 4.0f, 0.1f, 10000.0f);
 	camera->LookAt(float3(0.0f, -1.0f, 10.0f)); //Creo que esta al reves, preguntar
 	UpdateCamera();
 	
@@ -66,7 +66,7 @@ update_status ModuleRenderExercise::Update()
 	for (size_t i = 0; i < App->GetModel()->meshes.size(); ++i) {
 		auto& mesh = App->GetModel()->meshes[i];
 		glBindVertexArray(mesh->vao);
-		LOG("Mesh %s - VAO: %d, VBO: %d, EBO: %d, Vertices: %d, Indices: %d", mesh->name.c_str(), mesh->vao, mesh->vbo, mesh->ebo, mesh->vertexCount, mesh->indices.size());
+		//LOG("Mesh %s - VAO: %d, VBO: %d, EBO: %d, Vertices: %d, Indices: %d", mesh->name.c_str(), mesh->vao, mesh->vbo, mesh->ebo, mesh->vertexCount, mesh->indices.size());
 		glUniformMatrix4fv(modelLoc, 1, GL_TRUE, &mesh->modelMatrix[0][0]);
 		glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, nullptr);
 	}

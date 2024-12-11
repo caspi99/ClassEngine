@@ -37,17 +37,17 @@ void ModuleCamera::CreateViewMatrix() {
 	viewMatrix[0][0] = right.x;
 	viewMatrix[0][1] = right.y;
 	viewMatrix[0][2] = right.z;
-	viewMatrix[0][3] = -position.Dot(right);
+	viewMatrix[0][3] = -Dot(position, right);
 
 	viewMatrix[1][0] = up.x;
 	viewMatrix[1][1] = up.y;
 	viewMatrix[1][2] = up.z;
-	viewMatrix[1][3] = -position.Dot(up);
+	viewMatrix[1][3] = -Dot(position, up);
 
 	viewMatrix[2][0] = -front.x;
 	viewMatrix[2][1] = -front.y;
 	viewMatrix[2][2] = -front.z;
-	viewMatrix[2][3] = -position.Dot(front);
+	viewMatrix[2][3] = Dot(position, front);
 
 	viewMatrix[3][3] = 1.0f;
 }
@@ -107,23 +107,34 @@ float3x3 CreateYawMatrix(const float& yaw) {
 }
 
 void ModuleCamera::SetOrientation(const float& pitch, const float& yaw) {
+	float constrainedPitch = pitch;
+	if (constrainedPitch > pi / 2.0f) {
+		constrainedPitch = pi / 2.0f;
+	}
+	else if (constrainedPitch < -pi / 2.0f) {
+		constrainedPitch = -pi / 2.0f;
+	}
+
 	float3x3 pitchMatrix = CreatePitchMatrix(pitch);
 	float3x3 yawMatrix = CreateYawMatrix(yaw);
 	float3x3 rotationMatrix = pitchMatrix * yawMatrix;
 
 	float3 oldFront = front.Normalized();
 	front = rotationMatrix.MulDir(oldFront);
+	front.Normalize();
 
 	float3 oldUp = up.Normalized();
 	up = rotationMatrix.MulDir(oldUp);
+	up.Normalize();
 
 	right = Cross(front, up).Normalized();
+	right.Normalize();
 
 	CreateViewMatrix();
 }
 
 void ModuleCamera::LookAt(const float3& target) {
-	front = (position - target).Normalized();
+	front = (target - position).Normalized();
 	right = Cross(front, up).Normalized();
 	up = Cross(right, front).Normalized();
 
