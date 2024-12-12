@@ -117,6 +117,9 @@ void ModuleEditor::LogConsole() {
 	ImGui::Begin("Console", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse); //ImGuiWindowFlags_NoMove | 
 
 	if (ImGui::Button("Clear Console")) {
+		for (const char* message : App->logMessages) {
+			free(const_cast<char*>(message));
+		}
 		App->logMessages.clear();
 	}
 

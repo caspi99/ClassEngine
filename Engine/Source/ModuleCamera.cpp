@@ -108,49 +108,31 @@ float3x3 CreateYawMatrix(const float& yaw) {
 }
 
 void ModuleCamera::SetOrientation(const float& pitch, const float& yaw) {
-	float constrainedPitch = pitch;
-	if (constrainedPitch > pi / 2.0f) {
-		constrainedPitch = pi / 2.0f;
-	}
-	else if (constrainedPitch < -pi / 2.0f) {
-		constrainedPitch = -pi / 2.0f;
-	}
-
-	float3x3 pitchMatrix = CreatePitchMatrix(pitch);
-	float3x3 yawMatrix = CreateYawMatrix(yaw);
-	float3x3 rotationMatrix = pitchMatrix * yawMatrix;
+	Quat pitchQuat = Quat::RotateAxisAngle(right, pitch);
+	Quat yawQuat = Quat::RotateAxisAngle(float3::unitY, yaw);
+	Quat orientation = yawQuat * pitchQuat;
+	orientation.Normalize();
 
 	float3 oldFront = front.Normalized();
-	front = rotationMatrix.MulDir(oldFront);
-	front.Normalize();
+	front = orientation.Mul(oldFront).Normalized();
 
 	float3 oldUp = up.Normalized();
-	up = rotationMatrix.MulDir(oldUp);
-	up.Normalize();
+	up = orientation.Mul(oldUp).Normalized();
 
 	right = Cross(front, up).Normalized();
-	right.Normalize();
 
 	CreateViewMatrix();
 }
 
 void ModuleCamera::Orbit(const float& pitch, const float& yaw) {
-	float constrainedPitch = pitch;
-	if (constrainedPitch > pi / 2.0f) {
-		constrainedPitch = pi / 2.0f;
-	}
-	else if (constrainedPitch < -pi / 2.0f) {
-		constrainedPitch = -pi / 2.0f;
-	}
-
 	float3 direction = position - App->GetModel()->center;
 
-	float3x3 pitchMatrix = CreatePitchMatrix(pitch);
-	float3x3 yawMatrix = CreateYawMatrix(yaw);
-	float3x3 rotationMatrix = pitchMatrix * yawMatrix;
+	Quat pitchQuat = Quat::RotateAxisAngle(right, pitch);
+	Quat yawQuat = Quat::RotateAxisAngle(float3::unitY, yaw);
+	Quat rotation = yawQuat * pitchQuat;
+	rotation.Normalize();
 
-	direction = yawMatrix.MulDir(direction);
-	direction = pitchMatrix.MulDir(direction);
+	direction = rotation.Mul(direction);
 
 	position = App->GetModel()->center + direction;
 

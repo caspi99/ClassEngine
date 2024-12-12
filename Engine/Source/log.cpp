@@ -15,6 +15,7 @@ void log(const char file[], int line, const char* format, ...)
 	sprintf_s(tmp_string2, 4096, "\n%s(%d) : %s", file, line, tmp_string);
 	OutputDebugString(tmp_string2);
 	if (App->logMessages.size() >= 100) {
+		free(const_cast<char*>(App->logMessages.front()));
 		App->logMessages.erase(App->logMessages.begin());
 	}
 	App->logMessages.push_back(_strdup(tmp_string));
