@@ -23,6 +23,11 @@ enum main_states
 
 Application* App = NULL;
 
+extern "C" {
+	_declspec(dllexport) DWORD NvOptimusEnablement = 1;
+	_declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
+}
+
 int main(int argc, char ** argv)
 {
 	int main_return = EXIT_FAILURE;

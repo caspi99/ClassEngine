@@ -30,8 +30,9 @@ bool ModuleWindow::Init()
 		SDL_DisplayMode displayMode;
 		if (SDL_GetCurrentDisplayMode(0, &displayMode) == 0) {
 			width = displayMode.w;
-			height = displayMode.h;// - 50; //I want the top bar
+			height = displayMode.h;
 		}
+
 
 		Uint32 flags = SDL_WINDOW_SHOWN |  SDL_WINDOW_OPENGL;
 
@@ -46,6 +47,15 @@ bool ModuleWindow::Init()
 		}
 
 		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+
+		//Bordeless mode
+		if (SDL_SetWindowFullscreen(window, 0) != 0) {
+			SDL_Log("Error setting windowed mode: %s", SDL_GetError());
+		}
+		SDL_SetWindowSize(window, width, height);
+		SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+		SDL_SetWindowBordered(window, SDL_TRUE);
+		LOG("%d %d", width, height);
 
 		if(window == NULL)
 		{

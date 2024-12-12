@@ -32,7 +32,7 @@ bool ModuleRenderExercise::Init() {
 
 	//Camera working
 	camera = App->GetCamera();
-	camera->PerspectiveCamera(float3(0.0f, 1.0f, -10.0f), pi / 4.0f, 0.1f, 10000.0f);
+	camera->PerspectiveCamera(float3(0.0f, 3.0f, -10.0f), pi / 4.0f, 0.1f, 10000.0f);
 	camera->LookAt(float3(0.0f, -1.0f, 10.0f));
 	UpdateCamera();
 	
