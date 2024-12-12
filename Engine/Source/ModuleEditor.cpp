@@ -12,6 +12,7 @@
 
 ModuleEditor::ModuleEditor(){
 	editorWindowShow = true;
+	windowMode = 1;
 }
 
 ModuleEditor::~ModuleEditor(){
@@ -105,6 +106,11 @@ void ModuleEditor::ConfigMenu() {
 	ImGui::Separator();
 
 	//Fullscreen and resizable I need to do
+	const char* windowModes[] = { "Fullscreen", "Windowed without borders", "Windowed"};
+
+	if (ImGui::Combo("Window", &windowMode, windowModes, IM_ARRAYSIZE(windowModes))) {
+		App->GetWindow()->ChangeWindowMode(windowMode);
+	}
 	if (ImGui::SliderInt("Width", &width, 1, maxWidth) || ImGui::SliderInt("Height", &height, 1, maxHeight)) {
 		SDL_SetWindowSize(App->GetWindow()->window, width, height);
 	}
@@ -114,7 +120,7 @@ void ModuleEditor::ConfigMenu() {
 }
 
 void ModuleEditor::LogConsole() {
-	ImGui::Begin("Console", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse); //ImGuiWindowFlags_NoMove | 
+	ImGui::Begin("Console", nullptr, ImGuiWindowFlags_NoCollapse); //ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | 
 
 	if (ImGui::Button("Clear Console")) {
 		for (const char* message : App->logMessages) {

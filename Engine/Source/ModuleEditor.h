@@ -35,4 +35,5 @@ private:
 	int height;
 	int maxWidth;
 	int maxHeight;
+	int windowMode;
 };

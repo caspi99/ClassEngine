@@ -23,6 +23,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	void ChangeWindowMode(const int windowMode);
+
 public:
 	//The window we'll be rendering to
 	SDL_Window* window = NULL;
