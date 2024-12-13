@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleWindow.h"
+#include "ModuleCamera.h"
 #include "ImGui/imgui.h"
 #include <string>
 
@@ -65,7 +66,10 @@ bool ModuleWindow::Init()
 		else {
 			for (int i = 0; i < numModes; ++i) {
 				if (SDL_GetDisplayMode(0, i, &mode) == 0) {
-					resolutions.emplace(mode.w, mode.h);
+					float aspectRatio = static_cast<float>(mode.w) / static_cast<float>(mode.h);
+					if (std::abs(aspectRatio - (16.0f / 9.0f)) < 0.01f) {
+						resolutions.emplace(mode.w, mode.h);
+					}
 				}
 				else {
 					LOG("Error getting display mode %d: %s", i, SDL_GetError());
@@ -92,6 +96,7 @@ void ModuleWindow::RenderResolutionSelector() {
 
 		SDL_SetWindowSize(window, selected.first, selected.second);
 		SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+		App->GetCamera()->ResizeCamera();
 	}
 }
 
@@ -128,6 +133,8 @@ void ModuleWindow::ChangeWindowMode(const int windowMode) {
 		SDL_SetWindowPosition(window, usableBounds.x, usableBounds.y);
 		SDL_SetWindowBordered(window, SDL_TRUE);
 	}
+
+	App->GetCamera()->ResizeCamera();
 }
 
 update_status ModuleWindow::Update()
@@ -141,7 +148,7 @@ bool ModuleWindow::CleanUp()
 	LOG("Destroying SDL window and quitting all SDL systems");
 
 	for (auto& str : resolutionStrings) {
-		free(const_cast<char*>(str)); // Liberar la memoria asignada por strdup
+		free(const_cast<char*>(str));
 	}
 	resolutionStrings.clear();
 

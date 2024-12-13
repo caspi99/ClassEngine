@@ -12,6 +12,7 @@ ModuleCamera::ModuleCamera() {
 	height = 0;
 	projectionMatrix = float4x4::zero;
 	viewMatrix = float4x4::zero;
+	position = float3::zero;
 	front = float3::zero;
 	up = float3::zero;
 }
@@ -88,7 +89,7 @@ void ModuleCamera::SetPlaneDistances(const float& nearPlane = 0.1f, const float&
 }
 
 void ModuleCamera::SetPosition(const float3& position = float3(0, 0, 0)){
-	this->position= position;
+	this->position = position;
 }
 
 float3x3 CreatePitchMatrix(const float& pitch) {

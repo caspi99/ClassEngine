@@ -53,8 +53,9 @@ update_status ModuleInput::Update()
                 break;
             case SDL_MOUSEWHEEL:
                 if (sdlEvent.wheel.y != 0) {
-                    float zoomAmount = sdlEvent.wheel.y * 5.0f;
-                    App->GetCamera()->position -= App->GetCamera()->front * zoomAmount * delta_time;
+                    float zoomAmount = sdlEvent.wheel.y * 10.0f;
+                    App->GetCamera()->position += App->GetCamera()->front * zoomAmount * delta_time;
+                    App->GetCamera()->CreateViewMatrix();
                 }
                 break;
             case SDL_DROPFILE:

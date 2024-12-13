@@ -22,17 +22,12 @@ bool ModuleModel::Init() {
 }
 
 void ModuleModel::modelProperties() {
-	ImGui::Begin("Properties");
-	int vertexCountModel = 0;
-	int triangleCountModel = 0;
-	for (const auto& mesh : App->GetModel()->meshes) {
-		vertexCountModel = mesh.get()->vertexCount;
-		triangleCountModel = mesh.get()->triangleCount;
+	if (ImGui::BeginMenu("Model Properties")) {
+		ImGui::Text("Vertex Count: %d", vertexCountModel);
+		ImGui::Text("Triangle Count: %d", triangleCountModel);
+		App->GetTexture()->textProperties();
+		ImGui::EndMenu();
 	}
-	ImGui::Text("Vertex Count: %d", vertexCountModel);
-	ImGui::Text("Triangle Count: %d", triangleCountModel);
-	App->GetTexture()->textProperties();
-	ImGui::End();
 };
 
 void ModuleModel::LoadTexture(const char* assetFileName) {
@@ -110,6 +105,8 @@ bool ModuleModel::Load(const char* assetFileName) {
 		auto& mesh = App->GetModel()->meshes[i];
 		box.min = Min(box.min, mesh->box.min);
 		box.max = Max(box.max, mesh->box.max);
+		vertexCountModel += mesh.get()->vertexCount;
+		triangleCountModel += mesh.get()->triangleCount;
 	}
 
 	center = (box.min + box.max) * 0.5f;

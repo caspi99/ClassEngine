@@ -40,32 +40,33 @@ bool ModuleEditor::Init(){
 }
 
 update_status ModuleEditor::GeneralMenu() {
-	ImGui::Begin("Menu");
-	if (ImGui::BeginMenu("About...")) {
-		ImGui::Text("Name of the engine: %s", TITLE);
-		ImGui::Text("This is our super awesome engine");
-		ImGui::Text("Name of the Author: Andreu Castano");
-		ImGui::Separator();
-		ImGui::Text("Libraries used");
-		ImGui::Text("Glew %s", glewGetString(GLEW_VERSION));
-		SDL_version sdlVersion;
-		SDL_GetVersion(&sdlVersion);
+	update_status status = UPDATE_CONTINUE;
+	if(ImGui::BeginMenu("Menu")) {
+		if (ImGui::BeginMenu("About...")) {
+			ImGui::Text("Name of the engine: %s", TITLE);
+			ImGui::Text("This is our super awesome engine");
+			ImGui::Text("Name of the Author: Andreu Castano");
+			ImGui::Separator();
+			ImGui::Text("Libraries used");
+			ImGui::Text("Glew %s", glewGetString(GLEW_VERSION));
+			SDL_version sdlVersion;
+			SDL_GetVersion(&sdlVersion);
 
-		ImGui::Text("SDL Version: %d.%d.%d", sdlVersion.major, sdlVersion.minor, sdlVersion.patch);
-		ImGui::Text("OpenGL Version: %.6s", glGetString(GL_VERSION));
-		ImGui::Text("GLSL Version: %.5s", glGetString(GL_SHADING_LANGUAGE_VERSION));
-		ImGui::Separator();
-		ImGui::Text("License");
+			ImGui::Text("SDL Version: %d.%d.%d", sdlVersion.major, sdlVersion.minor, sdlVersion.patch);
+			ImGui::Text("OpenGL Version: %.6s", glGetString(GL_VERSION));
+			ImGui::Text("GLSL Version: %.5s", glGetString(GL_SHADING_LANGUAGE_VERSION));
+			ImGui::Separator();
+			ImGui::Text("License");
+			ImGui::EndMenu();
+		}
+		if (ImGui::MenuItem("Engine Github")) system("start https://github.com/caspi99/ClassEngine");
+		ImGui::Checkbox("Editor Window", &editorWindowShow);
+		if (ImGui::MenuItem("Quit", "Alt+F4")) {
+			status = UPDATE_STOP;
+		}
 		ImGui::EndMenu();
 	}
-	if (ImGui::MenuItem("Engine Github")) system("start https://github.com/caspi99/ClassEngine");
-	ImGui::Checkbox("Editor Window", &editorWindowShow);
-	if (ImGui::MenuItem("Quit", "Alt+F4")) {
-		return UPDATE_STOP;
-	}
-	ImGui::End();
-
-	return UPDATE_CONTINUE;
+	return status;
 }
 
 void ModuleEditor::UpdateFPS() {
@@ -78,46 +79,52 @@ void ModuleEditor::UpdateFPS() {
 }
 
 void ModuleEditor::ConfigMenu() {
-	ImGui::Begin("Config Menu");
+	if (ImGui::BeginMenu("Config Menu")) {
+		UpdateFPS();
+		ImGui::Text("FPS: %.2f", fps);
+		ImGui::PlotHistogram("##framerate", &fpsHistory[0], 100, 0, "", 0.0f, 1500.0f, ImVec2(310, 100));
 
-	UpdateFPS();
-	ImGui::Text("FPS: %.2f", fps);
-	ImGui::PlotHistogram("##framerate", &fpsHistory[0], 100, 0, "", 0.0f, 1500.0f, ImVec2(310, 100));
+		ImGui::Separator();
+		ImGui::Text("CPUs: %d (Cache: %d bytes)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());
+		ImGui::Text("System RAM: %.2f GB", SDL_GetSystemRAM() / 1024.0f);
 
-	ImGui::Separator();
-	ImGui::Text("CPUs: %d (Cache: %d bytes)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());
-	ImGui::Text("System RAM: %.2f GB", SDL_GetSystemRAM() / 1024.0f);
+		ImGui::Text("GPU: %s", glGetString(GL_RENDERER));
+		const GLubyte* vendor = glGetString(GL_VENDOR);
+		//This only works for NVIDIA GPUs
+		if (vendor != nullptr && std::string(reinterpret_cast<const char*>(vendor)) == "NVIDIA Corporation") {
+			int total_vram = 0;
+			int free_vram = 0;
+			glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &total_vram);
+			glGetIntegerv(GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &free_vram);
 
-	ImGui::Text("GPU: %s", glGetString(GL_RENDERER));
-	const GLubyte* vendor = glGetString(GL_VENDOR);
-	//This only works for NVIDIA GPUs
-	if (vendor != nullptr && std::string(reinterpret_cast<const char*>(vendor)) == "NVIDIA Corporation") {
-		int total_vram = 0;
-		int free_vram = 0;
-		glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &total_vram);
-		glGetIntegerv(GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &free_vram);
+			ImGui::Text("Total VRAM: %d MB", total_vram / 1024);
+			ImGui::Text("Available VRAM: %d MB", free_vram / 1024);
+			ImGui::Text("Used VRAM: %d MB", (total_vram - free_vram) / 1024);
+		}
+		else ImGui::Text("Not supporting memory consumption for %s", vendor);
 
-		ImGui::Text("Total VRAM: %d MB", total_vram / 1024);
-		ImGui::Text("Available VRAM: %d MB", free_vram / 1024);
-		ImGui::Text("Used VRAM: %d MB", (total_vram - free_vram) / 1024);
+		ImGui::Separator();
+
+		const char* windowModes[] = { "Fullscreen", "Windowed without borders", "Windowed" };
+
+		if (ImGui::Combo("Window", &windowMode, windowModes, IM_ARRAYSIZE(windowModes))) {
+			App->GetWindow()->ChangeWindowMode(windowMode);
+		}
+		App->GetWindow()->RenderResolutionSelector();
+		App->GetTexture()->setTextConf();
+
+		ImGui::EndMenu();
 	}
-	else ImGui::Text("Not supporting memory consumption for %s", vendor);
-
-	ImGui::Separator();
-
-	const char* windowModes[] = { "Fullscreen", "Windowed without borders", "Windowed"};
-
-	if (ImGui::Combo("Window", &windowMode, windowModes, IM_ARRAYSIZE(windowModes))) {
-		App->GetWindow()->ChangeWindowMode(windowMode);
-	}
-	App->GetWindow()->RenderResolutionSelector();
-	App->GetTexture()->setTextConf();
-
-	ImGui::End();
 }
 
 void ModuleEditor::LogConsole() {
-	ImGui::Begin("Console", nullptr, ImGuiWindowFlags_NoCollapse); //ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | 
+	ImGuiIO& io = ImGui::GetIO();
+	float consoleHeight = io.DisplaySize.y * 0.20f;
+	float mainWindowHeight = io.DisplaySize.y - consoleHeight;
+	ImGui::SetNextWindowPos(ImVec2(0, io.DisplaySize.y - consoleHeight));
+	ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x, consoleHeight));
+
+	ImGui::Begin("Console", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
 	if (ImGui::Button("Clear Console")) {
 		for (const char* message : App->logMessages) {
@@ -149,15 +156,21 @@ void ModuleEditor::LogConsole() {
 }
 
 update_status ModuleEditor::PreUpdate(){
+	update_status quitStatus = UPDATE_CONTINUE;
 	SDL_GetWindowSize(App->GetWindow()->window, &width, &height);
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
-	update_status quitStatus = GeneralMenu();
-	if(editorWindowShow) ConfigMenu();
-	LogConsole();
+	ImGui::SetNextWindowSize(ImVec2(800, 600), ImGuiCond_Once); // Auto-dimensiona al abrir por primera vez
+	if (ImGui::BeginMainMenuBar()) {
+		quitStatus = GeneralMenu();
+		if (editorWindowShow) ConfigMenu();
+		
+		App->GetModel()->modelProperties();
+		ImGui::EndMainMenuBar();
+	}
 
-	App->GetModel()->modelProperties();
+	LogConsole();
 
 	return quitStatus;
 }

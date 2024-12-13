@@ -41,6 +41,8 @@ public:
 	std::vector<int> textures;
 	BoundingBox box;
 	float3 center;
+	int vertexCountModel = 0;
+	int triangleCountModel = 0;
 
 	ModuleModel();
 	~ModuleModel();

@@ -7,6 +7,7 @@
 #include <vector>
 
 class Application;
+class ModuleCamera;
 
 class ModuleWindow : public Module
 {
