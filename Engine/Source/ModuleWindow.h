@@ -3,6 +3,8 @@
 
 #include "Module.h"
 #include "SDL/include/SDL.h"
+#include <set>
+#include <vector>
 
 class Application;
 
@@ -24,6 +26,7 @@ public:
 	bool CleanUp();
 
 	void ChangeWindowMode(const int windowMode);
+	void RenderResolutionSelector();
 
 public:
 	//The window we'll be rendering to
@@ -31,6 +34,11 @@ public:
 
 	//The surface contained by the window
 	SDL_Surface* screen_surface = NULL;
+
+private:
+	std::set<std::pair<int, int>> resolutions;
+	std::vector<const char*> resolutionStrings;
+	int selectedResolution = 0;
 };
 
 #endif // __ModuleWindow_H__

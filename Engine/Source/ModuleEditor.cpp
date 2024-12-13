@@ -105,15 +105,12 @@ void ModuleEditor::ConfigMenu() {
 
 	ImGui::Separator();
 
-	//Fullscreen and resizable I need to do
 	const char* windowModes[] = { "Fullscreen", "Windowed without borders", "Windowed"};
 
 	if (ImGui::Combo("Window", &windowMode, windowModes, IM_ARRAYSIZE(windowModes))) {
 		App->GetWindow()->ChangeWindowMode(windowMode);
 	}
-	if (ImGui::SliderInt("Width", &width, 1, maxWidth) || ImGui::SliderInt("Height", &height, 1, maxHeight)) {
-		SDL_SetWindowSize(App->GetWindow()->window, width, height);
-	}
+	App->GetWindow()->RenderResolutionSelector();
 	App->GetTexture()->setTextConf();
 
 	ImGui::End();

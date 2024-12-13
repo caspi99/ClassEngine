@@ -1,6 +1,8 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleWindow.h"
+#include "ImGui/imgui.h"
+#include <string>
 
 ModuleWindow::ModuleWindow()
 {
@@ -53,9 +55,44 @@ bool ModuleWindow::Init()
 			//Get window surface
 			screen_surface = SDL_GetWindowSurface(window);
 		}
+
+		SDL_DisplayMode mode;
+		int numModes = SDL_GetNumDisplayModes(0);
+
+		if (numModes < 1) {
+			LOG("Error getting display modes: %s", SDL_GetError());
+		}
+		else {
+			for (int i = 0; i < numModes; ++i) {
+				if (SDL_GetDisplayMode(0, i, &mode) == 0) {
+					resolutions.emplace(mode.w, mode.h);
+				}
+				else {
+					LOG("Error getting display mode %d: %s", i, SDL_GetError());
+				}
+			}
+		}
+
+		selectedResolution = resolutions.size() - 1;
+
+		for (const auto& res : resolutions) {
+			std::string resolutionStr = std::to_string(res.first) + "x" + std::to_string(res.second);
+			resolutionStrings.push_back(_strdup(resolutionStr.c_str()));
+		}
 	}
 
 	return ret;
+}
+
+void ModuleWindow::RenderResolutionSelector() {
+	if (ImGui::Combo("Resolution", &selectedResolution, resolutionStrings.data(), resolutionStrings.size())) {
+		auto it = resolutions.begin();
+		std::advance(it, selectedResolution);
+		const auto& selected = *it;
+
+		SDL_SetWindowSize(window, selected.first, selected.second);
+		SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+	}
 }
 
 void ModuleWindow::ChangeWindowMode(const int windowMode) {
@@ -72,6 +109,14 @@ void ModuleWindow::ChangeWindowMode(const int windowMode) {
 		}
 	}
 	else if (windowMode == 1) {
+		if (SDL_SetWindowFullscreen(window, 0) != 0) {
+			LOG("Error setting windowed mode: %s", SDL_GetError());
+		}
+		SDL_SetWindowSize(window, width, height);
+		SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+		SDL_SetWindowBordered(window, SDL_TRUE);
+	} 
+	else if (windowMode == 2) {
 		SDL_Rect usableBounds;
 		if (SDL_SetWindowFullscreen(window, 0) != 0) {
 			LOG("Error exiting fullscreen mode: %s", SDL_GetError());
@@ -81,14 +126,6 @@ void ModuleWindow::ChangeWindowMode(const int windowMode) {
 		}
 		SDL_SetWindowSize(window, usableBounds.w, usableBounds.h);
 		SDL_SetWindowPosition(window, usableBounds.x, usableBounds.y);
-		SDL_SetWindowBordered(window, SDL_TRUE);
-	} 
-	else if (windowMode == 2) {
-		if (SDL_SetWindowFullscreen(window, 0) != 0) {
-			LOG("Error setting windowed mode: %s", SDL_GetError());
-		}
-		SDL_SetWindowSize(window, width, height);
-		SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 		SDL_SetWindowBordered(window, SDL_TRUE);
 	}
 }
@@ -102,6 +139,11 @@ update_status ModuleWindow::Update()
 bool ModuleWindow::CleanUp()
 {
 	LOG("Destroying SDL window and quitting all SDL systems");
+
+	for (auto& str : resolutionStrings) {
+		free(const_cast<char*>(str)); // Liberar la memoria asignada por strdup
+	}
+	resolutionStrings.clear();
 
 	//Destroy window
 	if(window != NULL)
