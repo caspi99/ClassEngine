@@ -24,14 +24,15 @@ struct Mesh {
 	size_t vertexCount = 0;
 	size_t triangleCount = 0;
 
-	unsigned int vao = -1;
-	unsigned int vbo = -1;
-	unsigned int ebo = -1;
+	unsigned int vao = 0;
+	unsigned int vbo = 0;
+	unsigned int ebo = 0;
 
 	float4x4 modelMatrix;
 	BoundingBox box;
 
 	void load(const tinygltf::Model& model, const tinygltf::Primitive& primitive);
+	void CleanUp();
 };
 
 class ModuleModel : public Module
@@ -47,6 +48,7 @@ public:
 	ModuleModel();
 	~ModuleModel();
 	bool Init();
+	bool CleanUp();
 
 	void modelProperties();
 

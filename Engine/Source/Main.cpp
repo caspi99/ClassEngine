@@ -12,6 +12,9 @@
 #define TINYGLTF_IMPLEMENTATION /* Only in one of the includes */
 #include "tiny_gltf.h"
 
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+
 enum main_states
 {
 	MAIN_CREATION,  
@@ -30,6 +33,7 @@ extern "C" {
 
 int main(int argc, char ** argv)
 {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	int main_return = EXIT_FAILURE;
 	main_states state = MAIN_CREATION;
 
@@ -92,7 +96,8 @@ int main(int argc, char ** argv)
 
 	}
 
-	LOG("Bye :)\n");
 	delete App;
+
+	_CrtDumpMemoryLeaks();
 	return main_return;
 }

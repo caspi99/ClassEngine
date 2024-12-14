@@ -88,8 +88,8 @@ update_status ModuleInput::Update()
         float3 movement = float3::zero;
         if (keyboard[SDL_SCANCODE_W]) movement += App->GetCamera()->front;
         if (keyboard[SDL_SCANCODE_S]) movement -= App->GetCamera()->front;
-        if (keyboard[SDL_SCANCODE_A]) movement += App->GetCamera()->WorldRight();
-        if (keyboard[SDL_SCANCODE_D]) movement -= App->GetCamera()->WorldRight();
+        if (keyboard[SDL_SCANCODE_A]) movement -= App->GetCamera()->WorldRight();
+        if (keyboard[SDL_SCANCODE_D]) movement += App->GetCamera()->WorldRight();
 
         movement.Normalized();
         App->GetCamera()->position += movement * speed * delta_time;

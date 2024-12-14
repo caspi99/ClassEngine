@@ -125,7 +125,8 @@ int ModuleTexture::getTexture(const wchar_t* filename) {
 		}
 	}
 	else {
-		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, metadata.width, metadata.height, 0, format, type, textureData.GetPixels());
+		const DirectX::Image* baseImage = textureData.GetImage(0, 0, 0);
+		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, metadata.width, metadata.height, 0, format, type, baseImage->pixels);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 

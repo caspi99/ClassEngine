@@ -14,7 +14,6 @@ ModuleModel::ModuleModel() {
 }
 
 ModuleModel::~ModuleModel() {
-
 }
 
 bool ModuleModel::Init() {
@@ -43,8 +42,6 @@ void ModuleModel::LoadTexture(const char* assetFileName) {
 	}
 }
 
-//glDeleteBuffers I need to do it!!!
-//glDeleteVertexArrays(1, &vao);
 bool ModuleModel::Load(const char* assetFileName) {
 	tinygltf::TinyGLTF gltfContext;
 	tinygltf::Model model;
@@ -55,8 +52,14 @@ bool ModuleModel::Load(const char* assetFileName) {
 		LOG("Error loading %s: %s", assetFileName, error.c_str());
 		return false;
 	}
+
+	for (auto& mesh : meshes) {
+		mesh->CleanUp();
+	}
 	meshes.clear();
 	textures.clear();
+	box.min = { 1000000000, 10000000000, 10000000000 };
+	box.max = { -1000000000, -10000000000, -10000000000 };
 
 	for (const auto& srcMesh : model.meshes)
 	{	
@@ -103,8 +106,10 @@ bool ModuleModel::Load(const char* assetFileName) {
 
 	for (size_t i = 0; i < App->GetModel()->meshes.size(); ++i) {
 		auto& mesh = App->GetModel()->meshes[i];
-		box.min = Min(box.min, mesh->box.min);
-		box.max = Max(box.max, mesh->box.max);
+		float3 scaledMin = mesh->box.min.Mul(mesh->modelMatrix.GetScale());
+		float3 scaledMax = mesh->box.max.Mul(mesh->modelMatrix.GetScale());
+		box.min = Min(box.min, scaledMin);
+		box.max = Max(box.max, scaledMax);
 		vertexCountModel += mesh.get()->vertexCount;
 		triangleCountModel += mesh.get()->triangleCount;
 	}
@@ -112,6 +117,22 @@ bool ModuleModel::Load(const char* assetFileName) {
 	center = (box.min + box.max) * 0.5f;
 
 	return true;
+}
+
+bool ModuleModel::CleanUp() {
+	for (auto& mesh : meshes) {
+		mesh->CleanUp();
+	}
+	meshes.clear();
+	textures.clear();
+	return true;
+}
+
+void Mesh::CleanUp() {
+	//glDeleteTextures(1, &textureID);
+	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &vbo);
+	glDeleteBuffers(1, &ebo);
 }
 
 void Mesh::load(const tinygltf::Model& model, const tinygltf::Primitive& primitive) {

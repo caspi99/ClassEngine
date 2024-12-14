@@ -98,7 +98,7 @@ void ModuleRenderExercise::FileDrop(const char* filePath) {
 
 void ModuleRenderExercise::adjustCameraToGeometry() {
 	float diagonal = Length(App->GetModel()->box.max - App->GetModel()->box.min);
-	camera->SetPosition(App->GetModel()->center + float3(0.0f, 1.0f, diagonal * 2.0f));
+	camera->SetPosition(App->GetModel()->center + float3(0.0f, 1.0f, -diagonal * 2.0f));
 
 	camera->LookAt(App->GetModel()->center);
 }
