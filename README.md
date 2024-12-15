@@ -1,4 +1,4 @@
-# ClassEngine
+# Super Awesome Engine
 
 A game engine built in C++ for educational purposes, designed to meet the requirements of a specific assignment while also featuring a phong functionality. Explore the project and source code [here](https://github.com/caspi99/ClassEngine).
 
