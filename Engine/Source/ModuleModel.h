@@ -45,6 +45,10 @@ public:
 	int vertexCountModel = 0;
 	int triangleCountModel = 0;
 
+	float3 kd;
+	float3 ks;
+	float n;
+
 	ModuleModel();
 	~ModuleModel();
 	bool Init();

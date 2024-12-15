@@ -7,6 +7,7 @@
 #include "ModuleCamera.h"
 #include "ModuleTexture.h"
 #include "ModuleModel.h"
+#include "ImGui/imgui.h"
 
 ModuleRenderExercise::ModuleRenderExercise() {
 	program = 0;
@@ -19,8 +20,24 @@ ModuleRenderExercise::~ModuleRenderExercise() {
 
 }
 
+void ModuleRenderExercise::Lightconf() {
+	if (ImGui::BeginMenu("Phong Menu")) {
+		if (ImGui::ColorEdit3("Light Color", &light.color[0])) {
+			glUseProgram(program);
+			glUniform3fv(glGetUniformLocation(program, "lightColor"), 1, &light.color[0]);
+		}
+
+		if (ImGui::SliderFloat3("Light Direction", &light.direction[0], -2.0f, 2.0f)) {
+			glUseProgram(program);
+			glUniform3fv(glGetUniformLocation(program, "lightDir"), 1, &light.direction[0]);
+		}
+		
+		ImGui::EndMenu();
+	}
+}
+
 bool ModuleRenderExercise::Init() {
-	program = App->GetProgram()->CreateProgram("default_vertex.glsl", "default_fragment.glsl");
+	program = App->GetProgram()->CreateProgram("default_vertex.glsl", "phong_fragment.glsl");
 	if (program == 0) {
 		LOG("Error: Failed to create shader program");
 		return false;
@@ -30,7 +47,6 @@ bool ModuleRenderExercise::Init() {
 		float4x4::RotateZ(0.0f),
 		float3(3.f, 3.f, 3.f));
 
-	//Camera working
 	camera = App->GetCamera();
 	camera->PerspectiveCamera(float3(0.0f, 3.0f, -10.0f), pi / 4.0f, 0.1f, 10000.0f);
 	camera->LookAt(float3(0.0f, -1.0f, 10.0f));
@@ -40,11 +56,19 @@ bool ModuleRenderExercise::Init() {
 
 	projection = camera->GetProjectionMatrix();
 
+	light.color = { 0.8f, 0.8f, 0.0f };
+	light.direction = { 2.0f, 0.0f, 1.0f };
+
+	glUseProgram(program);
+	glUniform3fv(glGetUniformLocation(program, "lightColor"), 1, &light.color[0]);
+	glUniform3fv(glGetUniformLocation(program, "lightDir"), 1, &light.direction[0]);
+
 	return true;
 }
 
 update_status ModuleRenderExercise::Update()
 {
+	ModuleModel* model = App->GetModel();
 	SDL_GetWindowSize(App->GetWindow()->window, &width, &height);
 	glUseProgram(program);
 
@@ -55,14 +79,20 @@ update_status ModuleRenderExercise::Update()
 	glUniformMatrix4fv(viewLoc, 1, GL_TRUE, &view[0][0]);
 	glUniformMatrix4fv(projLoc, 1, GL_TRUE, &projection[0][0]);
 
-	if (App->GetModel()->textures.size() > 0) {
+	if (model->textures.size() > 0) {
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, App->GetModel()->textures[0]);
+		glBindTexture(GL_TEXTURE_2D, model->textures[0]);
 		glUniform1i(glGetUniformLocation(program, "mytexture"), 0);
 	}
+
+	glUniform3fv(glGetUniformLocation(program, "kd"), 1, &App->GetModel()->kd[0]);
+	glUniform3fv(glGetUniformLocation(program, "ks"), 1, &App->GetModel()->ks[0]);
+	glUniform1f(glGetUniformLocation(program, "n"), App->GetModel()->n);
+	glUniform3fv(glGetUniformLocation(program, "cameraPos"), 1, &camera->position[0]);
+
 	
-	for (size_t i = 0; i < App->GetModel()->meshes.size(); ++i) {
-		auto& mesh = App->GetModel()->meshes[i];
+	for (size_t i = 0; i < model->meshes.size(); ++i) {
+		auto& mesh = model->meshes[i];
 		glBindVertexArray(mesh->vao);
 		//LOG("Mesh %s - VAO: %d, VBO: %d, EBO: %d, Vertices: %d, Indices: %d", mesh->name.c_str(), mesh->vao, mesh->vbo, mesh->ebo, mesh->vertexCount, mesh->indices.size());
 		glUniformMatrix4fv(modelLoc, 1, GL_TRUE, &mesh->modelMatrix[0][0]);

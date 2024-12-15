@@ -17,7 +17,6 @@ char* ModuleProgram::LoadShaderSource(const char* shader_file_name) {
 	{
 		fseek(file, 0, SEEK_END);
 		int size = ftell(file);
-		//We need to free this memory later
 		data = (char*)malloc(size + 1);
 		fseek(file, 0, SEEK_SET);
 		fread(data, 1, size, file);

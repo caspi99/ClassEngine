@@ -7,6 +7,7 @@
 #include "ModuleTexture.h"
 #include "ModuleModel.h"
 #include "Application.h"
+#include "ModuleRenderExercise.h"
 #include <GL/glew.h>
 #include <string>
 
@@ -118,9 +119,9 @@ void ModuleEditor::ConfigMenu() {
 }
 
 void ModuleEditor::LogConsole() {
-	ImGuiIO& io = ImGui::GetIO();
-	float consoleHeight = io.DisplaySize.y * 0.20f;
-	float mainWindowHeight = io.DisplaySize.y - consoleHeight;
+	const ImGuiIO& io = ImGui::GetIO();
+	const float consoleHeight = io.DisplaySize.y * 0.20f;
+	const float mainWindowHeight = io.DisplaySize.y - consoleHeight;
 	ImGui::SetNextWindowPos(ImVec2(0, io.DisplaySize.y - consoleHeight));
 	ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x, consoleHeight));
 
@@ -161,12 +162,13 @@ update_status ModuleEditor::PreUpdate(){
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
-	ImGui::SetNextWindowSize(ImVec2(800, 600), ImGuiCond_Once); // Auto-dimensiona al abrir por primera vez
+	ImGui::SetNextWindowSize(ImVec2(800, 600), ImGuiCond_Once); 
 	if (ImGui::BeginMainMenuBar()) {
 		quitStatus = GeneralMenu();
 		if (editorWindowShow) ConfigMenu();
 		
 		App->GetModel()->modelProperties();
+		App->GetRenderExercise()->Lightconf();
 		ImGui::EndMainMenuBar();
 	}
 

@@ -24,6 +24,9 @@ void ModuleModel::modelProperties() {
 	if (ImGui::BeginMenu("Model Properties")) {
 		ImGui::Text("Vertex Count: %d", vertexCountModel);
 		ImGui::Text("Triangle Count: %d", triangleCountModel);
+		ImGui::Text("Diffuse coefficient: %f, %f, %f", kd.x, kd.y, kd.z);
+		ImGui::Text("Specular coefficient: %f, %f, %f", ks.x, ks.y, ks.z);
+		ImGui::Text("Shinniness: %f", n);
 		App->GetTexture()->textProperties();
 		ImGui::EndMenu();
 	}
@@ -47,6 +50,7 @@ bool ModuleModel::Load(const char* assetFileName) {
 	tinygltf::Model model;
 	std::string error, warning;
 	bool loadOk = gltfContext.LoadASCIIFromFile(&model, &error, &warning, assetFileName);
+	LOG("Loading model %s", assetFileName);
 	if (!loadOk)
 	{
 		LOG("Error loading %s: %s", assetFileName, error.c_str());
@@ -102,14 +106,33 @@ bool ModuleModel::Load(const char* assetFileName) {
 		}
 
 		textures.push_back(textureId);
+
+
+		kd = float3(
+			srcMaterial.pbrMetallicRoughness.baseColorFactor[0],
+			srcMaterial.pbrMetallicRoughness.baseColorFactor[1],
+			srcMaterial.pbrMetallicRoughness.baseColorFactor[2]
+		);
+
+		ks = float3(
+			srcMaterial.pbrMetallicRoughness.metallicFactor,
+			srcMaterial.pbrMetallicRoughness.metallicFactor,
+			srcMaterial.pbrMetallicRoughness.metallicFactor
+		); 
+
+		n = pow(2.0 / (srcMaterial.pbrMetallicRoughness.roughnessFactor + 0.001), 2.0);
 	}
+
+	//metallicFactor, roughnessFactor, baseColorFactor
 
 	for (size_t i = 0; i < App->GetModel()->meshes.size(); ++i) {
 		auto& mesh = App->GetModel()->meshes[i];
+
 		float3 scaledMin = mesh->box.min.Mul(mesh->modelMatrix.GetScale());
 		float3 scaledMax = mesh->box.max.Mul(mesh->modelMatrix.GetScale());
 		box.min = Min(box.min, scaledMin);
 		box.max = Max(box.max, scaledMax);
+
 		vertexCountModel += mesh.get()->vertexCount;
 		triangleCountModel += mesh.get()->triangleCount;
 	}
@@ -129,7 +152,6 @@ bool ModuleModel::CleanUp() {
 }
 
 void Mesh::CleanUp() {
-	//glDeleteTextures(1, &textureID);
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ebo);
@@ -173,6 +195,29 @@ void Mesh::load(const tinygltf::Model& model, const tinygltf::Primitive& primiti
 		box.max.z = posAcc.maxValues[2];
 	}
 
+	std::vector<float3> normals;
+	bool hasNormals = false;
+	const auto& itNor = primitive.attributes.find("NORMAL");
+	if (itNor != primitive.attributes.end())
+	{
+		const tinygltf::Accessor& norAcc = model.accessors[itNor->second];
+		SDL_assert(norAcc.type == TINYGLTF_TYPE_VEC3);
+		SDL_assert(norAcc.componentType == GL_FLOAT);
+		const tinygltf::BufferView& norView = model.bufferViews[norAcc.bufferView];
+		const tinygltf::Buffer& norBuffer = model.buffers[norView.buffer];
+		const unsigned char* bufferNor = &(norBuffer.data[norAcc.byteOffset + norView.byteOffset]);
+
+		vertexStride += 3;
+		hasNormals = true;
+
+		size_t stride = norView.byteStride ? norView.byteStride : sizeof(float) * 3;
+
+		for (size_t i = 0; i < norAcc.count; ++i) {
+			normals.push_back(*reinterpret_cast<const float3*>(bufferNor));
+			bufferNor += stride;
+		}
+	}
+
 	std::vector<float2> texCoords;
 	bool hasTexCoords = false;
 	const auto& itTexCoord = primitive.attributes.find("TEXCOORD_0");
@@ -200,6 +245,11 @@ void Mesh::load(const tinygltf::Model& model, const tinygltf::Primitive& primiti
 		vertexData.push_back(positions[i].x);
 		vertexData.push_back(positions[i].y);
 		vertexData.push_back(positions[i].z);
+		if (hasNormals) {
+			vertexData.push_back(normals[i].x);
+			vertexData.push_back(normals[i].y);
+			vertexData.push_back(normals[i].z);
+		}
 		if (hasTexCoords) {
 			vertexData.push_back(texCoords[i].x);
 			vertexData.push_back(texCoords[i].y);
@@ -216,9 +266,14 @@ void Mesh::load(const tinygltf::Model& model, const tinygltf::Primitive& primiti
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * vertexStride, (void*)0);
 
-	if (hasTexCoords) {
+	if (hasNormals) {
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * vertexStride, (void*)(sizeof(float) * 3));
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * vertexStride, (void*)(sizeof(float) * 3));
+	}
+
+	if (hasTexCoords) {
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * vertexStride, (void*)(sizeof(float) * (hasNormals ? 6 : 3)));
 	}
 
 	if (primitive.indices >= 0)

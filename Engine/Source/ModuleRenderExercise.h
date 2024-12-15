@@ -11,6 +11,11 @@ class ModuleDebugDraw;
 class ModuleTexture;
 class ModuleModel;
 
+struct Light {
+	float3 color;
+	float3 direction;
+};
+
 class ModuleRenderExercise : public Module
 {
 public:
@@ -24,6 +29,7 @@ public:
 	void UpdateCamera();
 	void FileDrop(const char* filePath);
 	void adjustCameraToGeometry();
+	void Lightconf();
 
 private:
 	ModuleCamera* camera;
@@ -35,4 +41,6 @@ private:
 
 	int width;
 	int height;
+
+	Light light;
 };
