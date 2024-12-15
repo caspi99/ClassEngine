@@ -56,6 +56,10 @@ update_status ModuleEditor::GeneralMenu() {
 			ImGui::Text("SDL Version: %d.%d.%d", sdlVersion.major, sdlVersion.minor, sdlVersion.patch);
 			ImGui::Text("OpenGL Version: %.6s", glGetString(GL_VERSION));
 			ImGui::Text("GLSL Version: %.5s", glGetString(GL_SHADING_LANGUAGE_VERSION));
+			ImGui::Text("ImGui Version: %s", IMGUI_VERSION);
+			ImGui::Text("DirectXTex Version: oct2024");
+			ImGui::Text("MathGeoLib Version: 1.5");
+			ImGui::Text("TinyGLTF Version: 2.9.3");
 			ImGui::Separator();
 			ImGui::Text("License: MIT License");
 			ImGui::EndMenu();
