@@ -45,7 +45,7 @@ update_status ModuleEditor::GeneralMenu() {
 	if(ImGui::BeginMenu("Menu")) {
 		if (ImGui::BeginMenu("About...")) {
 			ImGui::Text("Name of the engine: %s", TITLE);
-			ImGui::Text("This is our super awesome engine");
+			ImGui::Text("A game engine built in C++ for educational purposes.");
 			ImGui::Text("Name of the Author: Andreu Castano");
 			ImGui::Separator();
 			ImGui::Text("Libraries used");
@@ -57,7 +57,7 @@ update_status ModuleEditor::GeneralMenu() {
 			ImGui::Text("OpenGL Version: %.6s", glGetString(GL_VERSION));
 			ImGui::Text("GLSL Version: %.5s", glGetString(GL_SHADING_LANGUAGE_VERSION));
 			ImGui::Separator();
-			ImGui::Text("License");
+			ImGui::Text("License: MIT License");
 			ImGui::EndMenu();
 		}
 		if (ImGui::MenuItem("Engine Github")) system("start https://github.com/caspi99/ClassEngine");
