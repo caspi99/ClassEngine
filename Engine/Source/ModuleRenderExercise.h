@@ -43,4 +43,5 @@ private:
 	int height;
 
 	Light light;
+	float ambientIntensity;
 };

@@ -13,6 +13,7 @@ ModuleRenderExercise::ModuleRenderExercise() {
 	program = 0;
 	width = 0;
 	height = 0;
+	ambientIntensity = 0.1f;
 	camera = nullptr;
 }
 
@@ -30,6 +31,11 @@ void ModuleRenderExercise::Lightconf() {
 		if (ImGui::SliderFloat3("Light Direction", &light.direction[0], -2.0f, 2.0f)) {
 			glUseProgram(program);
 			glUniform3fv(glGetUniformLocation(program, "lightDir"), 1, &light.direction[0]);
+		}
+
+		if (ImGui::SliderFloat("Ambient Intensity", &ambientIntensity, 0, 1)) {
+			glUseProgram(program);
+			glUniform1f(glGetUniformLocation(program, "ambientIntensity"), ambientIntensity);
 		}
 		
 		ImGui::EndMenu();
@@ -62,6 +68,7 @@ bool ModuleRenderExercise::Init() {
 	glUseProgram(program);
 	glUniform3fv(glGetUniformLocation(program, "lightColor"), 1, &light.color[0]);
 	glUniform3fv(glGetUniformLocation(program, "lightDir"), 1, &light.direction[0]);
+	glUniform1f(glGetUniformLocation(program, "ambientIntensity"), ambientIntensity);
 
 	return true;
 }

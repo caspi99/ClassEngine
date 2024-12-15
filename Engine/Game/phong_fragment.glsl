@@ -3,6 +3,7 @@
 uniform vec3 lightColor;
 uniform vec3 lightDir;
 uniform vec3 cameraPos;
+uniform float ambientIntensity;
 uniform vec3 kd;
 uniform vec3 ks;
 uniform float n;
@@ -19,7 +20,7 @@ void main()
 	vec3 result;
 
 	vec3 texColor = texture(mytexture, uv0).rgb;
-	vec3 ambient = 0.1 * texColor;
+	vec3 ambient = ambientIntensity * texColor;
 
 	vec3 N = normalize(normal);
 	vec3 L = normalize(lightDir);
