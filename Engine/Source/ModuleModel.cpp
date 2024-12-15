@@ -70,8 +70,8 @@ bool ModuleModel::Load(const char* assetFileName) {
 		std::unique_ptr<Mesh> mesh = std::make_unique<Mesh>();
 		mesh->name = srcMesh.name;
 		float3 translation(0.0f, 0.0f, 0.0f);
-		Quat rotation(1.0f, 0.0f, 0.0f, 0.0f);
-		float3 scale(1.0f, 1.0f, 1.0f);
+		Quat rotation(0.0f, 1.0f, 0.0f, 0.0f);
+		float3 scale(0.2f, 0.2f, 0.2f);
 		for (const auto& primitive : srcMesh.primitives)
 		{
 			mesh->load(model, primitive);
@@ -122,8 +122,6 @@ bool ModuleModel::Load(const char* assetFileName) {
 
 		n = pow(2.0 / (srcMaterial.pbrMetallicRoughness.roughnessFactor + 0.001), 2.0);
 	}
-
-	//metallicFactor, roughnessFactor, baseColorFactor
 
 	for (size_t i = 0; i < App->GetModel()->meshes.size(); ++i) {
 		auto& mesh = App->GetModel()->meshes[i];
