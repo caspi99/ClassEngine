@@ -131,6 +131,7 @@
     </ClCompile>
     <ClCompile Include="ModuleTexture.cpp" />
     <ClCompile Include="ModuleModel.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -358,6 +359,7 @@
     <ClInclude Include="ModuleTexture.h" />
     <ClInclude Include="tiny_gltf.h" />
     <ClInclude Include="ModuleModel.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MathGeoLib">

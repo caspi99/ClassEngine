@@ -75,8 +75,9 @@ update_status ModuleEditor::GeneralMenu() {
 }
 
 void ModuleEditor::UpdateFPS() {
-	if (App->deltaTime > 0.0f) {
-		fps = 1.0f / App->deltaTime;
+	float deltaTimeInSeconds = deltaTime / 1000.0f;
+	if (deltaTimeInSeconds > 0.0f) {
+		fps = 1.0f / deltaTimeInSeconds;
 	}
 
 	fpsHistory[fpsHistoryIndex % FPS_HISTORY_SIZE] = fps;

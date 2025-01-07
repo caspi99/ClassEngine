@@ -25,7 +25,7 @@ private:
 	int width;
 	int height;
 	float speed = 0.1f;
-	float sensitivity = 1.5f;
+	float sensitivity = 0.005f;
 	int lastMouseX = 0;
 	int lastMouseY = 0;
 	bool firstTime = true;

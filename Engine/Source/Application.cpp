@@ -13,6 +13,9 @@
 
 using namespace std;
 
+MsTimer deltaTime;
+UsTimer realTime;
+
 Application::Application()
 {
 	// Order matters: they will Init/start/update in this order
@@ -26,9 +29,6 @@ Application::Application()
 	modules.push_back(model = new ModuleModel());
 	modules.push_back(editor = new ModuleEditor());
 	modules.push_back(input = new ModuleInput());
-
-	lastTime = 0;
-	deltaTime = 0;
 }
 
 Application::~Application()
@@ -53,9 +53,8 @@ update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
 
-	double currentTime = SDL_GetPerformanceCounter();
-	deltaTime = (double)((currentTime - lastTime) / (double)SDL_GetPerformanceFrequency());
-	lastTime = currentTime;
+	deltaTime.Tick();
+	realTime.Tick();
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		ret = (*it)->PreUpdate();
@@ -80,6 +79,9 @@ bool Application::CleanUp()
 		free(const_cast<char*>(message));
 	}
 	App->logMessages.clear();
+
+	deltaTime.Stop();
+	realTime.Stop();
 
 	return ret;
 }

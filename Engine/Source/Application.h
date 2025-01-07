@@ -4,6 +4,7 @@
 #include "Globals.h"
 #include "Module.h"
 #include <vector>
+#include "Timer.h"
 
 class ModuleOpenGL;
 class ModuleWindow;
@@ -16,6 +17,9 @@ class ModuleDebugDraw;
 class ModuleEditor;
 class ModuleTexture;
 class ModuleModel;
+
+extern MsTimer deltaTime;
+extern UsTimer realTime;
 
 class Application
 {
@@ -39,7 +43,6 @@ public:
     ModuleTexture* GetTexture() { return texture; }
     ModuleModel* GetModel() { return model; }
 
-    double deltaTime;
     std::vector<const char*> logMessages;
 
     void print(const char* message) {
@@ -61,8 +64,6 @@ private:
     ModuleModel* model = nullptr;
 
     std::list<Module*> modules;
-
-    double lastTime;
 };
 
 extern Application* App;

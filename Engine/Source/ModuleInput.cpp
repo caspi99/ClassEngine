@@ -38,7 +38,6 @@ bool ModuleInput::Init()
 update_status ModuleInput::Update()
 {
     SDL_Event sdlEvent;
-    float delta_time = App->deltaTime;
 
     while (SDL_PollEvent(&sdlEvent) != 0)
     {
@@ -54,7 +53,7 @@ update_status ModuleInput::Update()
             case SDL_MOUSEWHEEL:
                 if (sdlEvent.wheel.y != 0) {
                     float zoomAmount = sdlEvent.wheel.y * 10.0f;
-                    App->GetCamera()->position += App->GetCamera()->front * zoomAmount * delta_time;
+                    App->GetCamera()->position += App->GetCamera()->front * zoomAmount * deltaTime;
                     App->GetCamera()->CreateViewMatrix();
                 }
                 break;
@@ -70,10 +69,10 @@ update_status ModuleInput::Update()
     keyboard = SDL_GetKeyboardState(NULL);
 
     if (keyboard[SDL_SCANCODE_LSHIFT] || keyboard[SDL_SCANCODE_RSHIFT]) {
-        speed = 10.f;
+        speed = 0.3f;
     }
     else {
-        speed = 5.f;
+        speed = 0.15f;
     }
 
     //if (keyboard[SDL_SCANCODE_Q]) App->GetCamera()->position.y += speed * delta_time;
@@ -96,8 +95,8 @@ update_status ModuleInput::Update()
         lastMouseX = mouseX;
         lastMouseY = mouseY;
 
-        float yaw = deltaX * sensitivity * delta_time;
-        float pitch = deltaY * sensitivity * delta_time;
+        float yaw = deltaX * sensitivity * deltaTime;
+        float pitch = deltaY * sensitivity * deltaTime;
 
         App->GetCamera()->Orbit(pitch, yaw);
     }
@@ -109,7 +108,7 @@ update_status ModuleInput::Update()
         if (keyboard[SDL_SCANCODE_D]) movement += App->GetCamera()->WorldRight();
 
         movement.Normalized();
-        App->GetCamera()->position += movement * speed * delta_time;
+        App->GetCamera()->position += movement * speed * deltaTime;
 
         if (firstTime) {
             lastMouseX = mouseX;
@@ -123,8 +122,8 @@ update_status ModuleInput::Update()
         lastMouseX = mouseX;
         lastMouseY = mouseY;
 
-        float yaw = deltaX * sensitivity * delta_time;
-        float pitch = deltaY * sensitivity * delta_time;
+        float yaw = deltaX * sensitivity * deltaTime;
+        float pitch = deltaY * sensitivity * deltaTime;
 
         App->GetCamera()->SetOrientation(pitch, yaw);
     } 
